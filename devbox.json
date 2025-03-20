@@ -1,0 +1,46 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.14.0/.schema/devbox.schema.json",
+  "packages": {
+    "elixir": "latest",
+    "postgresql": "latest"
+  },
+  "env_from": ".env",
+  "shell": {
+    "init_hook": [
+      "echo 'Welcome to devbox!' > /dev/null",
+      "export PATH=\"$PATH:/Users/sp.bean/.codeium/windsurf/bin\""
+    ],
+    "scripts": {
+      "clean-db": [
+        "echo 'Removing PostgreSQL databases...'",
+        "rm -rf ./data/dev/*",
+        "rm -rf ./data/test/*",
+        "echo 'PostgreSQL databases removed successfully'"
+      ],
+      "init-db": [
+        "echo 'Initializing PostgreSQL databases after cleanup...'",
+        "mkdir -p ./data/dev",
+        "mkdir -p ./data/test",
+        "chmod 700 ./data/dev",
+        "chmod 700 ./data/test",
+        "chown -R $(whoami) ./data/dev",
+        "chown -R $(whoami) ./data/test",
+        "initdb -D ./data/dev --username=postgres --pwfile=<(echo 'postgres') --encoding=UTF8 --locale=C --auth=trust --data-checksums",
+        "echo \"listen_addresses = '*'\" >> ./data/dev/postgresql.conf",
+        "echo \"port = 5432\" >> ./data/dev/postgresql.conf",
+        "echo \"host all all all trust\" >> ./data/dev/pg_hba.conf",
+        "pg_ctl -D ./data/dev -l ./data/dev/logfile start",
+        "createdb -h localhost -p 5432 -U postgres trading_system",
+        "pg_ctl -D ./data/dev stop",
+        "initdb -D ./data/test --username=postgres --pwfile=<(echo 'postgres') --encoding=UTF8 --locale=C --auth=trust --data-checksums",
+        "echo \"listen_addresses = '*'\" >> ./data/test/postgresql.conf",
+        "echo \"port = 5433\" >> ./data/test/postgresql.conf",
+        "echo \"host all all all trust\" >> ./data/test/pg_hba.conf",
+        "pg_ctl -D ./data/test -l ./data/test/logfile start",
+        "createdb -h localhost -p 5433 -U postgres trading_system_test",
+        "pg_ctl -D ./data/test stop",
+        "echo 'PostgreSQL databases initialized successfully'"
+      ]
+    }
+  }
+}

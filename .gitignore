@@ -1,0 +1,61 @@
+# Elixir
+/_build/
+/cover/
+/deps/
+/.fetch
+erl_crash.dump
+*.ez
+*.beam
+/priv/static/
+
+# Environment variables
+.env
+
+# Database
+/data/
+
+# Devbox
+.devbox/
+.direnv/
+
+# IDE and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Logs
+*.log
+logfile
+/log/
+
+# Dependencies
+/trading_system/_build/
+/trading_system/deps/
+/trading_system/*/deps/
+/trading_system/*/_build/
+
+# Mix artifacts
+*.ez
+mix.lock
+
+# Generated documentation
+/doc/
+/docs/
+
+# Testing
+/cover/
+/test/tmp/
+*.beam
+
+/data
+
+.env
