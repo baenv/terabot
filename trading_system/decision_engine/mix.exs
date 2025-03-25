@@ -22,10 +22,10 @@ defmodule DecisionEngine.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:core, in_umbrella: true},
-      {:data_processor, in_umbrella: true},
-      {:nx, "~> 0.5"},
-      {:scholar, "~> 0.2"}
+      {:core, path: "../core"},
+      {:data_processor, path: "../data_processor"},
+      {:nx, "~> 0.6.2"},
+      {:scholar, "~> 0.2.1"}
     ]
   end
 end

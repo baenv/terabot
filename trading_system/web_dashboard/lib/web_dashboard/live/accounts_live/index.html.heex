@@ -1,0 +1,70 @@
+<div>
+  <.header>
+    <:title>Accounts</:title>
+    <:subtitle>Manage your trading accounts and wallets</:subtitle>
+    <:actions>
+      <.link navigate={~p"/accounts/new"} class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium">
+        Add CEX Account
+      </.link>
+      <.link navigate={~p"/wallets/new"} class="ml-3 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium">
+        Add Wallet with Private Key
+      </.link>
+    </:actions>
+  </.header>
+
+  <.table id="accounts" rows={@accounts}>
+    <:col :let={account} label="Name">
+      <%= account.name %>
+    </:col>
+    <:col :let={account} label="Type">
+      <span class={[
+        "inline-flex items-center rounded-md px-2 py-1 text-xs font-medium",
+        account.type == "cex" && "bg-purple-100 text-purple-800",
+        account.type == "dex" && "bg-yellow-100 text-yellow-800"
+      ]}>
+        <%= String.upcase(account.type) %>
+      </span>
+    </:col>
+    <:col :let={account} label="Provider">
+      <%= account.provider %>
+    </:col>
+    <:col :let={account} label="Account ID">
+      <%= account.account_id %>
+    </:col>
+    <:col :let={account} label="Private Key">
+      <span class={[
+        "inline-flex items-center rounded-md px-2 py-1 text-xs font-medium",
+        account.has_private_key && "bg-green-100 text-green-800",
+        !account.has_private_key && "bg-gray-100 text-gray-800"
+      ]}>
+        <%= if account.has_private_key, do: "Available", else: "Not Available" %>
+      </span>
+    </:col>
+    <:col :let={account} label="Status">
+      <span class={[
+        "inline-flex items-center rounded-md px-2 py-1 text-xs font-medium",
+        account.active && "bg-green-100 text-green-800",
+        !account.active && "bg-red-100 text-red-800"
+      ]}>
+        <%= if account.active, do: "Active", else: "Inactive" %>
+      </span>
+    </:col>
+    <:action :let={account}>
+      <.link navigate={~p"/accounts/#{account.id}"} class="text-indigo-600 hover:text-indigo-900">
+        View
+      </.link>
+    </:action>
+    <:action :let={account}>
+      <button 
+        phx-click="toggle_account" 
+        phx-value-id={account.id} 
+        class={[
+          "text-sm font-medium",
+          account.active && "text-red-600 hover:text-red-900",
+          !account.active && "text-green-600 hover:text-green-900"
+        ]}>
+        <%= if account.active, do: "Deactivate", else: "Activate" %>
+      </button>
+    </:action>
+  </.table>
+</div>

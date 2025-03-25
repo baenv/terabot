@@ -22,7 +22,7 @@ defmodule DataCollector.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:core, in_umbrella: true},
+      {:core, path: "../core"},
       {:websockex, "~> 0.4.3"},
       {:ex_binance, "~> 0.0.4"}
     ]

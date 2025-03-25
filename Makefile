@@ -1,4 +1,4 @@
-.PHONY: setup test clean build run format check deps update-deps docker-build docker-run init-shell init-db init-mix clean-db reset-db start stop
+.PHONY: setup test clean build run format check deps update-deps docker-build docker-run init-shell init-db init-mix clean-db reset-db start stop migrate migrate.up migrate.down
 
 # Default target
 all: init-mix test
@@ -96,6 +96,22 @@ deps.outdated:
 # Generate documentation
 docs:
 	cd trading_system && mix docs
+
+# Get dependencies
+deps.get:
+	cd trading_system && mix deps.get
+
+# Run database migrations
+migrate: deps.get
+	cd trading_system && mix ecto.migrate
+
+# Run database migrations up
+migrate.up: deps.get
+	cd trading_system && mix ecto.migrate
+
+# Run database migrations down
+migrate.down:
+	cd trading_system && mix ecto.rollback
 
 # Help target
 help:

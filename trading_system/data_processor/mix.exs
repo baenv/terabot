@@ -22,9 +22,8 @@ defmodule DataProcessor.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:core, in_umbrella: true},
+      {:core, path: "../core"},
       {:statistics, "~> 0.6.2"},
-      {:tai, "~> 0.0.62"},
       {:flow, "~> 1.2"}
     ]
   end

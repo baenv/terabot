@@ -14,7 +14,15 @@ defmodule TradingSystemMain.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger],
+      extra_applications: [
+        :logger,
+        :core,
+        :data_collector,
+        :data_processor,
+        :decision_engine,
+        :order_manager,
+        :portfolio_manager
+      ],
       mod: {TradingSystemMain.Application, []}
     ]
   end
@@ -22,14 +30,17 @@ defmodule TradingSystemMain.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:core, in_umbrella: true},
-      {:data_collector, in_umbrella: true},
-      {:data_processor, in_umbrella: true},
-      {:decision_engine, in_umbrella: true},
-      {:order_manager, in_umbrella: true},
-      {:portfolio_manager, in_umbrella: true},
+      {:core, path: "../core"},
+      {:data_collector, path: "../data_collector"},
+      {:data_processor, path: "../data_processor"},
+      {:decision_engine, path: "../decision_engine"},
+      {:order_manager, path: "../order_manager"},
+      {:portfolio_manager, path: "../portfolio_manager"},
       
-      # No external API dependencies needed - using Erlang's built-in HTTP server
+      # HTTP server dependencies
+      {:plug, "~> 1.14"},
+      {:plug_cowboy, "~> 2.6"},
+      {:jason, "~> 1.4"}
     ]
   end
 end

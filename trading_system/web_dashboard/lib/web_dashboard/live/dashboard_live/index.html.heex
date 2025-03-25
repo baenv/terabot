@@ -1,0 +1,139 @@
+<div class="space-y-6">
+  <!-- Portfolio Overview Section -->
+  <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+    <.stat_card 
+      label="Total Portfolio Value" 
+      value={@total_value} 
+      change={@change_24h} 
+      change_type={@change_24h_type} 
+      icon="💰"
+    />
+    <.stat_card 
+      label="7-Day Change" 
+      value={@change_7d} 
+      change_type={@change_7d_type} 
+      icon="📈"
+    />
+    <.stat_card 
+      label="Active Accounts" 
+      value={Integer.to_string(@active_accounts)} 
+      change="of #{@total_accounts} total" 
+      change_type="neutral" 
+      icon="👤"
+    />
+    <.stat_card 
+      label="Total Transactions" 
+      value={Integer.to_string(@total_transactions)} 
+      icon="🔄"
+    />
+  </div>
+
+  <!-- Recent Transactions Section -->
+  <.card>
+    <:title>Recent Transactions</:title>
+    <:subtitle>Latest activity across all accounts</:subtitle>
+    <:actions>
+      <.link navigate={~p"/transactions"} class="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+        View all
+      </.link>
+    </:actions>
+    
+    <.table id="transactions" rows={@recent_transactions}>
+      <:col :let={transaction} label="Time">
+        <%= Calendar.strftime(transaction.timestamp, "%Y-%m-%d %H:%M:%S") %>
+      </:col>
+      <:col :let={transaction} label="Account">
+        <%= transaction.account.name %>
+      </:col>
+      <:col :let={transaction} label="Type">
+        <span class={[
+          "inline-flex items-center rounded-md px-2 py-1 text-xs font-medium",
+          transaction.type == "deposit" && "bg-green-100 text-green-800",
+          transaction.type == "withdrawal" && "bg-red-100 text-red-800",
+          transaction.type == "trade" && "bg-blue-100 text-blue-800"
+        ]}>
+          <%= String.capitalize(transaction.type) %>
+        </span>
+      </:col>
+      <:col :let={transaction} label="Amount">
+        <%= transaction.amount %> <%= transaction.asset %>
+      </:col>
+      <:action :let={transaction}>
+        <.link navigate={~p"/transactions/#{transaction.id}"} class="text-indigo-600 hover:text-indigo-900">
+          Details
+        </.link>
+      </:action>
+    </.table>
+  </.card>
+
+  <!-- Active Accounts Section -->
+  <div class="grid grid-cols-1 gap-5 lg:grid-cols-2">
+    <.card>
+      <:title>Active Accounts</:title>
+      <:subtitle>Currently monitored accounts</:subtitle>
+      <:actions>
+        <.link navigate={~p"/accounts"} class="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+          View all
+        </.link>
+      </:actions>
+      
+      <.table id="accounts" rows={@active_accounts}>
+        <:col :let={account} label="Name">
+          <%= account.name %>
+        </:col>
+        <:col :let={account} label="Type">
+          <span class={[
+            "inline-flex items-center rounded-md px-2 py-1 text-xs font-medium",
+            account.type == "cex" && "bg-purple-100 text-purple-800",
+            account.type == "dex" && "bg-yellow-100 text-yellow-800"
+          ]}>
+            <%= String.upcase(account.type) %>
+          </span>
+        </:col>
+        <:col :let={account} label="Provider">
+          <%= account.provider %>
+        </:col>
+        <:action :let={account}>
+          <.link navigate={~p"/accounts/#{account.id}"} class="text-indigo-600 hover:text-indigo-900">
+            Details
+          </.link>
+        </:action>
+      </.table>
+    </.card>
+
+    <!-- Top Assets Section -->
+    <.card>
+      <:title>Top Assets</:title>
+      <:subtitle>Highest value holdings</:subtitle>
+      <:actions>
+        <.link navigate={~p"/portfolio"} class="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+          Full Portfolio
+        </.link>
+      </:actions>
+      
+      <.table id="assets" rows={@top_assets}>
+        <:col :let={asset} label="Asset">
+          <%= asset.asset %>
+        </:col>
+        <:col :let={asset} label="Value">
+          $<%= :erlang.float_to_binary(asset.total_value, decimals: 2) %>
+        </:col>
+      </.table>
+    </.card>
+  </div>
+
+  <!-- Wallet Registration Section -->
+  <.card>
+    <:title>Register a New Wallet</:title>
+    <:subtitle>Add a new wallet to track or trade with</:subtitle>
+    
+    <div class="mt-4 flex space-x-4">
+      <.link navigate={~p"/accounts/new"} class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        Add CEX Account
+      </.link>
+      <.link navigate={~p"/wallets/new"} class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        Add Wallet with Private Key
+      </.link>
+    </div>
+  </.card>
+</div>

@@ -22,8 +22,8 @@ defmodule OrderManager.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:core, in_umbrella: true},
-      {:decision_engine, in_umbrella: true},
+      {:core, path: "../core"},
+      {:decision_engine, path: "../decision_engine"},
       {:ex_binance, "~> 0.0.4"},
       {:decimal, "~> 2.1"}
     ]

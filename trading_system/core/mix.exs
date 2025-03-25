@@ -22,13 +22,13 @@ defmodule Core.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:jason, "~> 1.4"},
-      {:finch, "~> 0.16"},
-      {:telemetry, "~> 1.2"},
-      {:phoenix_pubsub, "~> 2.1"},
-      {:ecto_sql, "~> 3.10"},
-      {:postgrex, ">= 0.0.0"},
-      {:dotenvy, "~> 0.8.0"}
+      {:jason, github: "michalmuskala/jason", tag: "v1.4.1"},
+      {:finch, github: "sneako/finch", tag: "v0.16.0"},
+      {:telemetry, github: "beam-telemetry/telemetry", tag: "v1.2.1"},
+      {:phoenix_pubsub, github: "phoenixframework/phoenix_pubsub", tag: "v2.1.3"},
+      {:ecto_sql, github: "elixir-ecto/ecto_sql", tag: "v3.10.2", override: true},
+      {:postgrex, github: "elixir-ecto/postgrex", tag: "v0.17.4", override: true},
+      {:dotenvy, github: "fireproofsocks/dotenvy", tag: "v0.8.0"}
     ]
   end
 end
