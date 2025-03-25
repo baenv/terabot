@@ -5,7 +5,7 @@ defmodule TradingSystemMain.MixProject do
     [
       app: :trading_system_main,
       version: "0.1.0",
-      elixir: "~> 1.18",
+      elixir: "~> 1.17",
       start_permanent: Mix.env() == :prod,
       deps: deps()
     ]
@@ -27,7 +27,9 @@ defmodule TradingSystemMain.MixProject do
       {:data_processor, in_umbrella: true},
       {:decision_engine, in_umbrella: true},
       {:order_manager, in_umbrella: true},
-      {:portfolio_manager, in_umbrella: true}
+      {:portfolio_manager, in_umbrella: true},
+      
+      # No external API dependencies needed - using Erlang's built-in HTTP server
     ]
   end
 end

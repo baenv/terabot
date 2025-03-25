@@ -9,7 +9,8 @@ config :core, Core.Repo,
   password: System.get_env("DB_PASS") || "postgres",
   hostname: System.get_env("DB_HOST") || "localhost",
   port: String.to_integer(System.get_env("DB_PORT") || "5432"),
-  pool_size: 10
+  pool_size: 10,
+  socket_dir: nil
 
 config :data_collector,
   binance_api_key: System.get_env("BINANCE_API_KEY"),
@@ -26,4 +27,5 @@ config :tai, Tai.Orders.OrderRepo,
   password: System.get_env("DB_PASS") || "postgres",
   hostname: System.get_env("DB_HOST") || "localhost",
   port: String.to_integer(System.get_env("DB_PORT") || "5432"),
-  pool_size: 10
+  pool_size: 10,
+  socket_dir: nil

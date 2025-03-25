@@ -1,8 +1,8 @@
 {
   "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.14.0/.schema/devbox.schema.json",
   "packages": {
-    "elixir": "latest",
-    "postgresql": "latest"
+    "elixir": "1.18.0",
+    "postgresql": "17.2"
   },
   "env_from": ".env",
   "shell": {
@@ -25,19 +25,19 @@
         "chmod 700 ./data/test",
         "chown -R $(whoami) ./data/dev",
         "chown -R $(whoami) ./data/test",
-        "initdb -D ./data/dev --username=postgres --pwfile=<(echo 'postgres') --encoding=UTF8 --locale=C --auth=trust --data-checksums",
+        "initdb -D ./data/dev --username=$DB_USER --pwfile=<(echo '$DB_PASS') --encoding=UTF8 --locale=C --auth=trust --data-checksums",
         "echo \"listen_addresses = '*'\" >> ./data/dev/postgresql.conf",
-        "echo \"port = 5432\" >> ./data/dev/postgresql.conf",
+        "echo \"port = $DB_PORT\" >> ./data/dev/postgresql.conf",
         "echo \"host all all all trust\" >> ./data/dev/pg_hba.conf",
         "pg_ctl -D ./data/dev -l ./data/dev/logfile start",
-        "createdb -h localhost -p 5432 -U postgres trading_system",
+        "createdb -h $DB_HOST -p $DB_PORT -U $DB_USER $DB_NAME",
         "pg_ctl -D ./data/dev stop",
-        "initdb -D ./data/test --username=postgres --pwfile=<(echo 'postgres') --encoding=UTF8 --locale=C --auth=trust --data-checksums",
+        "initdb -D ./data/test --username=$DB_USER --pwfile=<(echo '$DB_PASS') --encoding=UTF8 --locale=C --auth=trust --data-checksums",
         "echo \"listen_addresses = '*'\" >> ./data/test/postgresql.conf",
-        "echo \"port = 5433\" >> ./data/test/postgresql.conf",
+        "echo \"port = $DB_PORT_TEST\" >> ./data/test/postgresql.conf",
         "echo \"host all all all trust\" >> ./data/test/pg_hba.conf",
         "pg_ctl -D ./data/test -l ./data/test/logfile start",
-        "createdb -h localhost -p 5433 -U postgres trading_system_test",
+        "createdb -h $DB_HOST -p $DB_PORT_TEST -U $DB_USER ${DB_NAME}_test",
         "pg_ctl -D ./data/test stop",
         "echo 'PostgreSQL databases initialized successfully'"
       ]

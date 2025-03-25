@@ -5,180 +5,180 @@
       "resolved": "github:NixOS/nixpkgs/3549532663732bfd89993204d40543e9edaec4f2?narHash=sha256-ud8vcSzJsZ%2FCK%2Br8%2Fv0lyf4yUntVmDq6Z0A41ODfWbE%3D#darwin.apple_sdk.frameworks.CoreServices",
       "source": "nixpkg"
     },
-    "elixir@latest": {
-      "last_modified": "2024-12-27T03:08:00Z",
+    "elixir@1.17.3": {
+      "last_modified": "2024-12-26T01:25:00Z",
       "plugin_version": "0.0.1",
-      "resolved": "github:NixOS/nixpkgs/7cc0bff31a3a705d3ac4fdceb030a17239412210#elixir",
+      "resolved": "github:NixOS/nixpkgs/16e046229f3b4f53257973a5532bcbb72457d2f2#elixir",
       "source": "devbox-search",
-      "version": "1.18.1",
+      "version": "1.17.3",
       "systems": {
         "aarch64-darwin": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/hdd9x34p0gplcl1bramq80lqi76xrd87-elixir-1.18.1",
+              "path": "/nix/store/dwrs7i6zv5b4kmqrfqf71yvpsi603qan-elixir-1.17.3",
               "default": true
             }
           ],
-          "store_path": "/nix/store/hdd9x34p0gplcl1bramq80lqi76xrd87-elixir-1.18.1"
+          "store_path": "/nix/store/dwrs7i6zv5b4kmqrfqf71yvpsi603qan-elixir-1.17.3"
         },
         "aarch64-linux": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/a4g29icpil9b1hsniqspz5k110h4df8v-elixir-1.18.1",
+              "path": "/nix/store/hvmvrqs862pahjbrhk1dyibwlrgb7431-elixir-1.17.3",
               "default": true
             }
           ],
-          "store_path": "/nix/store/a4g29icpil9b1hsniqspz5k110h4df8v-elixir-1.18.1"
+          "store_path": "/nix/store/hvmvrqs862pahjbrhk1dyibwlrgb7431-elixir-1.17.3"
         },
         "x86_64-darwin": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/b3h6f36zd4gjivb76lvvs6a9bi1mq9q8-elixir-1.18.1",
+              "path": "/nix/store/ag6nncjhgdbgqrwzhm37ls06jrzilip8-elixir-1.17.3",
               "default": true
             }
           ],
-          "store_path": "/nix/store/b3h6f36zd4gjivb76lvvs6a9bi1mq9q8-elixir-1.18.1"
+          "store_path": "/nix/store/ag6nncjhgdbgqrwzhm37ls06jrzilip8-elixir-1.17.3"
         },
         "x86_64-linux": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/3zd200bq28mv3pdbii7rijzmb0gmhhs3-elixir-1.18.1",
+              "path": "/nix/store/kd7nv0pvn70xn5xjp6j8rhzjnwyzpx6h-elixir-1.17.3",
               "default": true
             }
           ],
-          "store_path": "/nix/store/3zd200bq28mv3pdbii7rijzmb0gmhhs3-elixir-1.18.1"
+          "store_path": "/nix/store/kd7nv0pvn70xn5xjp6j8rhzjnwyzpx6h-elixir-1.17.3"
         }
       }
     },
     "github:NixOS/nixpkgs/nixpkgs-unstable": {
       "resolved": "github:NixOS/nixpkgs/3549532663732bfd89993204d40543e9edaec4f2?lastModified=1742272065&narHash=sha256-ud8vcSzJsZ%2FCK%2Br8%2Fv0lyf4yUntVmDq6Z0A41ODfWbE%3D"
     },
-    "postgresql@latest": {
-      "last_modified": "2025-03-16T23:54:35Z",
+    "postgresql@17.2": {
+      "last_modified": "2025-02-20T02:45:56Z",
       "plugin_version": "0.0.2",
-      "resolved": "github:NixOS/nixpkgs/5d9b5431f967007b3952c057fc92af49a4c5f3b2#postgresql",
+      "resolved": "github:NixOS/nixpkgs/dad564433178067be1fbdfcce23b546254b6d641#postgresql",
       "source": "devbox-search",
-      "version": "17.4",
+      "version": "17.2",
       "systems": {
         "aarch64-darwin": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/pw8nqywmv0rx01sic5p89d8sg2ym1cq3-postgresql-17.4",
+              "path": "/nix/store/1pwf93b61vr8knzsz0imsq90w6pfc3a9-postgresql-17.2",
               "default": true
             },
             {
               "name": "man",
-              "path": "/nix/store/892x7nrcydcax8z88d337436di2kp50j-postgresql-17.4-man",
+              "path": "/nix/store/6nskjs58338vdv75y0xs99w5z64wlnir-postgresql-17.2-man",
               "default": true
             },
             {
               "name": "dev",
-              "path": "/nix/store/f07mk2fiyb1mawcbwacllfca60c3qz17-postgresql-17.4-dev"
+              "path": "/nix/store/j31c0r32p9c705481syic36wf89xwc9m-postgresql-17.2-dev"
             },
             {
               "name": "doc",
-              "path": "/nix/store/w2d65iq22l5nfmxl33v401s40f9sk0r9-postgresql-17.4-doc"
+              "path": "/nix/store/g2fky1xwlwlpbm1z4wz79r3q97wnqj2y-postgresql-17.2-doc"
             },
             {
               "name": "lib",
-              "path": "/nix/store/x2252h5f8bq8vggqnki4nz9mf3drlffm-postgresql-17.4-lib"
+              "path": "/nix/store/gqip84495xjajpl8qk3n3c8qpqc1jfg0-postgresql-17.2-lib"
             }
           ],
-          "store_path": "/nix/store/pw8nqywmv0rx01sic5p89d8sg2ym1cq3-postgresql-17.4"
+          "store_path": "/nix/store/1pwf93b61vr8knzsz0imsq90w6pfc3a9-postgresql-17.2"
         },
         "aarch64-linux": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/3qyphghvw55njd2048kdagd2i3ck2lwr-postgresql-17.4",
+              "path": "/nix/store/6y9w0b551j2d48h1l9crjv45frjad8if-postgresql-17.2",
               "default": true
             },
             {
               "name": "man",
-              "path": "/nix/store/hg3iabq2fjr96bdavzmqfvnya2imw03k-postgresql-17.4-man",
+              "path": "/nix/store/k4mh9nmhglchjjx791v716zcb78m9fb8-postgresql-17.2-man",
               "default": true
             },
             {
-              "name": "doc",
-              "path": "/nix/store/1w2hxbpka86hi9xs8vydxqbfcs1a0qgh-postgresql-17.4-doc"
-            },
-            {
-              "name": "lib",
-              "path": "/nix/store/jc7jv38lhza1v4p22l8b7nr1yp69c5sm-postgresql-17.4-lib"
-            },
-            {
               "name": "debug",
-              "path": "/nix/store/xf3ldavlfw85mzgx8cj4jh5hwh9ggf0q-postgresql-17.4-debug"
+              "path": "/nix/store/059kmvan7ji9kn8xa72by1nf57cd9dyv-postgresql-17.2-debug"
             },
             {
               "name": "dev",
-              "path": "/nix/store/0a6mqx00fncp6gvwbmm01ziazpdaakic-postgresql-17.4-dev"
+              "path": "/nix/store/z3bb6ajnmdfgz8p3kpmv2dsm5r972jr3-postgresql-17.2-dev"
+            },
+            {
+              "name": "doc",
+              "path": "/nix/store/f0bisfj86dqq9rz9cd90jx2lp4yxnz1a-postgresql-17.2-doc"
+            },
+            {
+              "name": "lib",
+              "path": "/nix/store/5sn88ybrys75gklhw21c81m7jwdgm1y9-postgresql-17.2-lib"
             }
           ],
-          "store_path": "/nix/store/3qyphghvw55njd2048kdagd2i3ck2lwr-postgresql-17.4"
+          "store_path": "/nix/store/6y9w0b551j2d48h1l9crjv45frjad8if-postgresql-17.2"
         },
         "x86_64-darwin": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/d43lyc6xqwk4k39yzlxb037kchi33fqj-postgresql-17.4",
+              "path": "/nix/store/qdpki2j117g1hn3d4bxlmzw5ygxja7x2-postgresql-17.2",
               "default": true
             },
             {
               "name": "man",
-              "path": "/nix/store/7pqsn9z79k7fbilwp0aqadj8ncbga4pv-postgresql-17.4-man",
+              "path": "/nix/store/r8c8818bdqq1qa2b29qb5vnnb359qk0b-postgresql-17.2-man",
               "default": true
             },
             {
               "name": "dev",
-              "path": "/nix/store/rigq2bcccsf57a69vw0zqv3czqvak9p6-postgresql-17.4-dev"
+              "path": "/nix/store/clr7mw9wd44nzmnmzfafnj8a35iha5aq-postgresql-17.2-dev"
             },
             {
               "name": "doc",
-              "path": "/nix/store/02znrncmdg9l1xdj90m9dl619a1y831a-postgresql-17.4-doc"
+              "path": "/nix/store/x82b0w0b74dk5pxm862cmggd80sc759w-postgresql-17.2-doc"
             },
             {
               "name": "lib",
-              "path": "/nix/store/rkcbd2sb8gaiawx40ydq8xcsp72ff6gj-postgresql-17.4-lib"
+              "path": "/nix/store/bdwfmv01vfi9csfgxcl32ylj874cxap0-postgresql-17.2-lib"
             }
           ],
-          "store_path": "/nix/store/d43lyc6xqwk4k39yzlxb037kchi33fqj-postgresql-17.4"
+          "store_path": "/nix/store/qdpki2j117g1hn3d4bxlmzw5ygxja7x2-postgresql-17.2"
         },
         "x86_64-linux": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/fi1qz98nl8q7ddwbbms5xssywn44ackc-postgresql-17.4",
+              "path": "/nix/store/xwbdn2l153f3lxd4f09ilgpngbbhvvlb-postgresql-17.2",
               "default": true
             },
             {
               "name": "man",
-              "path": "/nix/store/nq3377crls255rli4qydmcx01fhchdrm-postgresql-17.4-man",
+              "path": "/nix/store/s1j1fdm3n2w96jyspnz0gb4nbsd51pgk-postgresql-17.2-man",
               "default": true
             },
             {
-              "name": "debug",
-              "path": "/nix/store/ap031b5f59xzgdp1hckbvj6qn00b55rl-postgresql-17.4-debug"
-            },
-            {
               "name": "dev",
-              "path": "/nix/store/2gfhs8b7hq69mn5df6afns8jjqaavw0f-postgresql-17.4-dev"
+              "path": "/nix/store/lds1190zlm9ydsmd5byxbz4ifl393myx-postgresql-17.2-dev"
             },
             {
               "name": "doc",
-              "path": "/nix/store/wi5g5zylciygcwnvgv9697gwwjd6r1ma-postgresql-17.4-doc"
+              "path": "/nix/store/4bcfji6rh4qffh1bidy1ddm7ndbd9z9b-postgresql-17.2-doc"
             },
             {
               "name": "lib",
-              "path": "/nix/store/4mfi1s3cmbwm4059d5qg689m4pj57m4p-postgresql-17.4-lib"
+              "path": "/nix/store/shyk39i057hcsmkj2gf2zz5wa01h44h5-postgresql-17.2-lib"
+            },
+            {
+              "name": "debug",
+              "path": "/nix/store/fypyhdc73zczyyrd9ar15gly43gf7m9p-postgresql-17.2-debug"
             }
           ],
-          "store_path": "/nix/store/fi1qz98nl8q7ddwbbms5xssywn44ackc-postgresql-17.4"
+          "store_path": "/nix/store/xwbdn2l153f3lxd4f09ilgpngbbhvvlb-postgresql-17.2"
         }
       }
     }
