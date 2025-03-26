@@ -22,7 +22,7 @@ defmodule DataProcessor.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:core, path: "../core"},
+      {:core, path: "../core", override: true},
       {:statistics, github: "msharp/elixir-statistics", override: true},
       {:flow, github: "dashbitco/flow", tag: "v1.2.4", override: true}
     ]
