@@ -28,6 +28,13 @@ defmodule PortfolioManager.MixProject do
       # Phoenix dependencies
       {:phoenix_pubsub, github: "phoenixframework/phoenix_pubsub", tag: "v2.1.3", override: true},
 
+      # Web dependencies
+      {:plug, github: "elixir-plug/plug", tag: "v1.14.2", override: true},
+      {:plug_cowboy, github: "elixir-plug/plug_cowboy", tag: "v2.6.1", override: true},
+      {:cowboy, "~> 2.9.0", override: true},
+      {:cowlib, "~> 2.11.0", override: true},
+      {:ranch, "~> 1.8.0", override: true},
+
       # Ethereum dependencies
       {:ethereumex, github: "mana-ethereum/ethereumex", override: true},
       {:ex_abi, github: "poanetwork/ex_abi", override: true},

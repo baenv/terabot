@@ -99,20 +99,16 @@ defmodule PortfolioManager.SushiSwapAdapter do
 
   # Server callbacks
 
-  @impl GenServer
+  @impl true
   def init(_opts) do
-    # Initialize Ethereum client
-    {:ok, eth_client} = Ethereumex.HttpClient.start_link(url: get_eth_rpc_url())
-
-    # Get SushiSwap contract addresses
-    factory_address = get_sushiswap_factory_address()
-    router_address = get_sushiswap_router_address()
+    # Ethereum HTTP client is configured via the application env
+    # no need to start it explicitly as it's just a module with functions
 
     {:ok, %{
-      eth_client: eth_client,
-      factory_address: factory_address,
-      router_address: router_address,
-      chain_id: get_chain_id()
+      subscribed: false,
+      positions: %{},
+      eth_usd_price: nil,
+      pools: %{}
     }}
   end
 

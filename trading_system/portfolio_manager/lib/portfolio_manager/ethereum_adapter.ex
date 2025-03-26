@@ -65,18 +65,18 @@ defmodule PortfolioManager.EthereumAdapter do
 
   # Server callbacks
 
-  @impl GenServer
+  @impl true
   def init(_opts) do
-    # Initialize Ethereum client
-    {:ok, eth_client} = Ethereumex.HttpClient.start_link(url: get_eth_rpc_url())
-
-    # Subscribe to new blocks
-    subscribe_to_blocks()
+    # Ethereum HTTP client is configured via the application env
+    # no need to start it explicitly as it's just a module with functions
 
     {:ok, %{
-      eth_client: eth_client,
-      chain_id: get_chain_id(),
-      accounts: %{} # Map of account_id => last_balance
+      subscribed: false,
+      balances: %{},
+      transactions: %{},
+      positions: %{},
+      # Default to an empty list of DEX adapters until they're configured
+      dex_adapters: []
     }}
   end
 

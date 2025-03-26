@@ -34,28 +34,22 @@ defmodule TradingSystemMain.Application do
   defp get_available_apps do
     available_apps = []
 
-    # available_apps =
-    #   if Code.ensure_loaded?(Core.Application) do
-    #     Logger.info("Core application is available, adding to children")
-    #     [Core.Application | available_apps]
-    #   else
-    #     Logger.warning("Core application is not available")
-    #     available_apps
-    #   end
-
     available_apps =
-      if Code.ensure_loaded?(PortfolioManager.Application) do
-        Logger.info("PortfolioManager is available, adding to children")
-        [PortfolioManager.Application | available_apps]
+      if Code.ensure_loaded?(Core.Application) do
+        Logger.info("Core application is available, adding to children")
+        # Instead of directly using the Application module, depend on the OTP application
+        available_apps
       else
-        Logger.warning("PortfolioManager is not available")
+        Logger.warning("Core application is not available")
         available_apps
       end
+
 
     available_apps =
       if Code.ensure_loaded?(DataCollector.Application) do
         Logger.info("DataCollector is available, adding to children")
-        [DataCollector.Application | available_apps]
+        # Instead of directly using the Application module, depend on the OTP application
+        available_apps
       else
         Logger.warning("DataCollector is not available")
         available_apps
@@ -64,7 +58,8 @@ defmodule TradingSystemMain.Application do
     available_apps =
       if Code.ensure_loaded?(OrderManager.Application) do
         Logger.info("OrderManager is available, adding to children")
-        [OrderManager.Application | available_apps]
+        # Instead of directly using the Application module, depend on the OTP application
+        available_apps
       else
         Logger.warning("OrderManager is not available")
         available_apps
@@ -73,11 +68,33 @@ defmodule TradingSystemMain.Application do
     available_apps =
       if Code.ensure_loaded?(DecisionEngine.Application) do
         Logger.info("DecisionEngine is available, adding to children")
-        [DecisionEngine.Application | available_apps]
+        # Instead of directly using the Application module, depend on the OTP application
+        available_apps
       else
         Logger.warning("DecisionEngine is not available")
         available_apps
       end
+
+    available_apps =
+      if Code.ensure_loaded?(PortfolioManager.Application) do
+        Logger.info("PortfolioManager is available, adding to children")
+        # Instead of directly using the Application module, depend on the OTP application
+        available_apps
+      else
+        Logger.warning("PortfolioManager is not available")
+        available_apps
+      end
+
+    # Disable web_dashboard temporarily as it has compilation issues
+    available_apps =
+     if Code.ensure_loaded?(WebDashboard.Application) do
+       Logger.info("WebDashboard is available, adding to children")
+       # Instead of directly using the Application module, depend on the OTP application
+       available_apps
+     else
+       Logger.warning("WebDashboard is not available")
+       available_apps
+     end
 
     available_apps
   end

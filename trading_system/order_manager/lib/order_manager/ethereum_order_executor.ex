@@ -82,20 +82,19 @@ defmodule OrderManager.EthereumOrderExecutor do
 
   @impl GenServer
   def init(_opts) do
-    # Initialize Ethereum client
-    {:ok, eth_client} = Ethereumex.HttpClient.start_link(url: get_eth_rpc_url())
+    # Ethereum HTTP client is configured via the application env
+    # no need to start it explicitly as it's just a module with functions
 
     {:ok, %{
-      eth_client: eth_client,
       chain_id: get_chain_id()
     }}
   end
 
   @impl GenServer
   def handle_call({:prepare_transaction, tx_params, account}, _from, state) do
-    with {:ok, nonce} <- get_nonce(account.address, state.eth_client),
-         {:ok, gas_price} <- get_gas_price(state.eth_client),
-         {:ok, gas_limit} <- estimate_gas_limit(tx_params, account, state.eth_client),
+    with {:ok, nonce} <- get_nonce(account.address, nil),
+         {:ok, gas_price} <- get_gas_price(nil),
+         {:ok, gas_limit} <- estimate_gas_limit(tx_params, account, nil),
          {:ok, tx_data} <- prepare_tx_data(tx_params, account) do
 
       eth_tx = %{
@@ -121,7 +120,7 @@ defmodule OrderManager.EthereumOrderExecutor do
   def handle_call({:execute_transaction, eth_tx, account}, _from, state) do
     with {:ok, private_key} <- KeyVault.get_private_key(account.id),
          {:ok, signed_tx} <- sign_transaction(eth_tx, private_key),
-         {:ok, tx_hash} <- submit_transaction(signed_tx, state.eth_client) do
+         {:ok, tx_hash} <- submit_transaction(signed_tx, nil) do
 
       {:reply, {:ok, tx_hash}, state}
     else
@@ -134,12 +133,12 @@ defmodule OrderManager.EthereumOrderExecutor do
   @impl GenServer
   def handle_call({:cancel_transaction, eth_tx_hash, tx_record}, _from, state) do
     with {:ok, account} <- get_account(tx_record.account_id),
-         {:ok, nonce} <- get_nonce(account.address, state.eth_client),
-         {:ok, gas_price} <- get_gas_price(state.eth_client),
+         {:ok, nonce} <- get_nonce(account.address, nil),
+         {:ok, gas_price} <- get_gas_price(nil),
          {:ok, cancel_tx} <- prepare_cancel_tx(account, nonce, gas_price, state.chain_id),
          {:ok, private_key} <- KeyVault.get_private_key(account.id),
          {:ok, signed_tx} <- sign_transaction(cancel_tx, private_key),
-         {:ok, tx_hash} <- submit_transaction(signed_tx, state.eth_client) do
+         {:ok, tx_hash} <- submit_transaction(signed_tx, nil) do
 
       {:reply, {:ok, tx_hash}, state}
     else
@@ -152,11 +151,11 @@ defmodule OrderManager.EthereumOrderExecutor do
   @impl GenServer
   def handle_call({:speed_up_transaction, eth_tx_hash, tx_record}, _from, state) do
     with {:ok, account} <- get_account(tx_record.account_id),
-         {:ok, gas_price} <- get_gas_price(state.eth_client),
+         {:ok, gas_price} <- get_gas_price(nil),
          {:ok, speed_up_tx} <- prepare_speed_up_tx(tx_record, gas_price, state.chain_id),
          {:ok, private_key} <- KeyVault.get_private_key(account.id),
          {:ok, signed_tx} <- sign_transaction(speed_up_tx, private_key),
-         {:ok, tx_hash} <- submit_transaction(signed_tx, state.eth_client) do
+         {:ok, tx_hash} <- submit_transaction(signed_tx, nil) do
 
       {:reply, {:ok, tx_hash}, state}
     else
