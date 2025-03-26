@@ -27,7 +27,8 @@ defmodule TradingSystemMain.MixProject do
         :data_collector,
         :order_manager,
         :decision_engine,
-        :data_processor
+        :data_processor,
+        :web_dashboard
       ]
     ]
   end
@@ -49,7 +50,7 @@ defmodule TradingSystemMain.MixProject do
       {:order_manager, path: "../order_manager"},
       {:decision_engine, path: "../decision_engine"},
       # Temporarily disabled due to compilation issues
-      # {:web_dashboard, path: "../web_dashboard"},
+      {:web_dashboard, path: "../web_dashboard"},
       {:data_processor, path: "../data_processor"},
 
       # Ethereum dependencies

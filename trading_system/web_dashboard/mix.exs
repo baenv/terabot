@@ -27,20 +27,10 @@ defmodule WebDashboard.MixProject do
   # Specifies your project dependencies.
   defp deps do
     [
-      # Web dependencies
+      # Web dependencies - essential only
       {:plug, github: "elixir-plug/plug", tag: "v1.14.2", override: true},
       {:plug_cowboy, github: "elixir-plug/plug_cowboy", tag: "v2.6.1", override: true},
-      {:jason, github: "michalmuskala/jason", tag: "v1.4.1", override: true},
-      {:telemetry, github: "beam-telemetry/telemetry", tag: "v1.2.1", override: true},
-      {:telemetry_metrics, github: "beam-telemetry/telemetry_metrics", tag: "v0.6.1", override: true},
-      {:telemetry_poller, github: "beam-telemetry/telemetry_poller", tag: "v1.0.0", override: true},
-      {:decimal, github: "ericmj/decimal", tag: "v2.1.1", override: true},
-
-      # Internal dependencies (poncho style)
-      {:core, path: "../core", override: true},
-      {:portfolio_manager, path: "../portfolio_manager", override: true},
-      {:order_manager, path: "../order_manager", override: true},
-      {:data_collector, path: "../data_collector", override: true}
+      {:jason, github: "michalmuskala/jason", tag: "v1.4.1", override: true}
     ]
   end
 end

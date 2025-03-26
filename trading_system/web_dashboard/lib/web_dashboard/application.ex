@@ -5,9 +5,7 @@ defmodule WebDashboard.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      # Start the PubSub system for real-time updates
-      {Registry, keys: :unique, name: WebDashboard.PubSub},
-      # Start the Web Server
+      # Start the simple web server
       {Plug.Cowboy, scheme: :http, plug: WebDashboard.Router, options: [port: 4000]}
     ]
 
