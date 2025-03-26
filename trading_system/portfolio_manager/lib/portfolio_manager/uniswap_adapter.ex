@@ -64,6 +64,39 @@ defmodule PortfolioManager.UniswapAdapter do
     GenServer.call(__MODULE__, {:get_pool_reserves, token0, token1})
   end
 
+  @doc """
+  Gets the liquidity pool reserves directly with server state.
+
+  ## Parameters
+    * `token0` - First token address
+    * `token1` - Second token address
+    * `state` - Server state
+
+  Returns:
+    * `{:ok, reserves}` - The pool reserves
+    * `{:error, reason}` - Error with reason
+  """
+  def get_pool_reserves(token0, token1, state) do
+    pool_address = get_pool_address(token0, token1, state)
+
+    case pool_address do
+      {:ok, address} ->
+        # Simulate fetching reserves from the pool address
+        # In a real implementation, this would call the smart contract
+        reserve0 = :rand.uniform(1000000) * 1.0
+        reserve1 = :rand.uniform(1000000) * 1.0
+
+        {:ok, %{
+          reserve0: reserve0,
+          reserve1: reserve1,
+          block_timestamp: System.os_time(:second)
+        }}
+
+      error ->
+        error
+    end
+  end
+
   # Server callbacks
 
   @impl GenServer

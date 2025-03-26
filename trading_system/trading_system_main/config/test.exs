@@ -10,18 +10,8 @@ config :core, Core.Repo,
   pool: Ecto.Adapters.SQL.Sandbox,
   socket_dir: nil
 
-# Disable actual API calls during tests
-config :data_collector,
-  binance_api_key: "test_key",
-  binance_api_secret: "test_secret",
-  trading_pairs: ["BTCUSDT"],
-  mock_api_calls: true
-
 # Set test mode for components
-config :portfolio_manager, test_mode: true
-config :order_manager, test_mode: true
 config :decision_engine, test_mode: true
-config :web_dashboard, test_mode: true
 config :trading_system_main, environment: :test
 
 # Logger configuration

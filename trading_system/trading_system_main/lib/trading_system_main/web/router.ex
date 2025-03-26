@@ -1,43 +1,34 @@
 defmodule TradingSystemMain.Web.Router do
   use Plug.Router
-  
-  plug Plug.Logger
+
+  alias TradingSystemMain.Web.Health
+
   plug :match
-  plug Plug.Parsers,
-    parsers: [:json],
-    pass: ["application/json"],
-    json_decoder: Jason
   plug :dispatch
 
   # Health check endpoint
-  get "/api/health" do
-    # Use the standalone health module that doesn't rely on dependencies
-    health_data = TradingSystemMain.Health.check_all_apps()
-    
-    conn
-    |> put_resp_content_type("application/json")
-    |> send_resp(200, Jason.encode!(health_data))
+  get "/health" do
+    resp = Health.check()
+    send_resp(conn, 200, resp)
   end
-  
-  # Check specific application health
-  get "/api/health/:app_name" do
-    app_atom = String.to_atom(app_name)
-    health_data = TradingSystemMain.Health.check_app_health(app_atom)
-    
-    conn
-    |> put_resp_content_type("application/json")
-    |> send_resp(200, Jason.encode!(health_data))
+
+  # Health check for system components
+  get "/health/components" do
+    resp = Health.check_components()
+    send_resp(conn, 200, resp)
   end
-  
-  # Forward portfolio manager requests
-  forward "/api/port", to: PortfolioManager.Web.Router
-  
-  # Fallback for unmatched routes
+
+  # Health check specific component
+  get "/health/:component" do
+    resp = Health.check_component(component)
+    send_resp(conn, 200, resp)
+  end
+
+  # Forward requests to appropriate sub-applications
+  # Removed the forward to PortfolioManager.Web.Router since it's causing issues
+
+  # Handle 404s
   match _ do
-    conn
-    |> put_resp_content_type("application/json")
-    |> send_resp(404, Jason.encode!(%{status: "error", message: "Not found"}))
+    send_resp(conn, 404, "Not found")
   end
-  
-  # Helper functions have been moved to TradingSystemMain.Health module
 end

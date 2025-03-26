@@ -10,29 +10,11 @@ config :core, Core.Repo,
   pool_size: 10,
   socket_dir: nil
 
-# Data Collector configuration
-config :data_collector,
-  binance_api_key: System.get_env("BINANCE_API_KEY"),
-  binance_api_secret: System.get_env("BINANCE_API_SECRET"),
-  trading_pairs: ["BTCUSDT", "ETHUSDT", "BNBUSDT"]
-
-# Portfolio Manager configuration
-config :portfolio_manager,
-  rebalance_interval: 3600  # in seconds
-
-# Order Manager configuration
-config :order_manager,
-  max_retry_attempts: 3,
-  retry_interval: 1000  # in milliseconds
+# Portfolio Manager configuration was removed
 
 # Decision Engine configuration
 config :decision_engine,
   strategy_module: DecisionEngine.Strategies.Default
-
-# Web Dashboard configuration
-config :web_dashboard,
-  port: 4000,
-  secret_key_base: System.get_env("SECRET_KEY_BASE")
 
 # Trading System Main configuration
 config :trading_system_main,
