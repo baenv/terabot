@@ -1,76 +1,58 @@
 defmodule WebDashboard.Router do
-  use Plug.Router
+  use Phoenix.Router
+  import Phoenix.LiveView.Router
+  import Plug.Conn
+  import Phoenix.Controller
 
-  # Enable logging
-  plug Plug.Logger
-
-  # Need this for router to work
-  plug :match
-  plug :dispatch
-
-  # Simple route responses
-  get "/" do
-    send_resp(conn, 200, "Terabot Trading System Dashboard")
+  pipeline :browser do
+    plug :accepts, ["html"]
+    plug :fetch_session
+    plug :fetch_live_flash
+    plug :put_root_layout, html: {WebDashboard.Layouts, :root}
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
   end
 
-  get "/accounts" do
-    send_resp(conn, 200, "Accounts List")
+  pipeline :api do
+    plug :accepts, ["json"]
   end
 
-  get "/accounts/:id" do
-    send_resp(conn, 200, "Account #{id} Details")
-  end
+  scope "/", WebDashboard do
+    pipe_through :browser
 
-  get "/portfolio" do
-    send_resp(conn, 200, "Portfolio Overview")
-  end
-
-  get "/transactions" do
-    send_resp(conn, 200, "Transactions List")
+    # LiveView routes
+    live "/", DashboardLive.Index, :index
+    live "/accounts", AccountsLive.Index, :index
+    live "/accounts/:id", AccountsLive.Show, :show
+    live "/transactions", TransactionsLive.Index, :index
+    live "/portfolio", PortfolioLive.Index, :index
+    live "/orders", OrdersLive.Index, :index
+    live "/wallets", WalletsLive.Index, :index
   end
 
   # API endpoints
-  get "/api/accounts" do
-    # Return empty accounts for now
-    accounts = []
-    json = Jason.encode!(accounts)
-    conn
-    |> put_resp_content_type("application/json")
-    |> send_resp(200, json)
+  scope "/api", WebDashboard do
+    pipe_through :api
+
+    get "/status", StatusController, :index
+    get "/accounts", AccountsController, :index
+    get "/accounts/:id", AccountsController, :show
+    get "/portfolio", PortfolioController, :index
+    get "/transactions", TransactionsController, :index
   end
 
-  get "/api/accounts/:id" do
-    # Return mock account data
-    account = %{id: id, name: "Account #{id}"}
-    json = Jason.encode!(account)
-    conn
-    |> put_resp_content_type("application/json")
-    |> send_resp(200, json)
+  # Fallback route for development
+  if Mix.env() == :dev do
+    # Enable debug info for LiveView
+    scope "/" do
+      pipe_through :browser
+      forward "/phoenix/live_reload/socket", Phoenix.LiveReloader.Socket
+    end
   end
 
-  get "/api/portfolio" do
-    # Return empty portfolio data for now
-    portfolio = %{
-      total_value: 0.0,
-      assets: []
-    }
-    json = Jason.encode!(portfolio)
-    conn
-    |> put_resp_content_type("application/json")
-    |> send_resp(200, json)
-  end
-
-  get "/api/transactions" do
-    # Return empty transactions for now
-    transactions = []
-    json = Jason.encode!(transactions)
-    conn
-    |> put_resp_content_type("application/json")
-    |> send_resp(200, json)
-  end
-
-  # Catch-all route
-  match _ do
-    send_resp(conn, 404, "Not found")
+  # Fallback for any other routes
+  scope "/" do
+    pipe_through :browser
+    get "/*path", WebDashboard.FallbackController, :not_found
   end
 end

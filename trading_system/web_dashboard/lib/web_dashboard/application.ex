@@ -5,8 +5,11 @@ defmodule WebDashboard.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      # Start the simple web server
-      {Plug.Cowboy, scheme: :http, plug: WebDashboard.Router, options: [port: 4000]}
+      # Start the PubSub system for real-time updates
+      {Phoenix.PubSub, name: WebDashboard.PubSub},
+
+      # Start the Phoenix Endpoint for the web dashboard
+      {WebDashboard.Endpoint, []}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
