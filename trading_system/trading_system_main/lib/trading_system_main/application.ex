@@ -14,8 +14,6 @@ defmodule TradingSystemMain.Application do
       {Phoenix.PubSub, name: TradingSystemMain.PubSub},
       # Start the ETS tables for caching
       TradingSystemMain.Cache,
-      # Start the core application
-      Core.Application,
       # Start the portfolio manager
       PortfolioManager.Application,
       # Start the data collector

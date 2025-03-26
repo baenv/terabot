@@ -25,7 +25,7 @@ defmodule DecisionEngine.MixProject do
       {:core, path: "../core", override: true},
       {:data_processor, path: "../data_processor", override: true},
       {:nx, github: "elixir-nx/nx", tag: "v0.6.2", override: true},
-      {:scholar, github: "elixir-nx/scholar", tag: "v0.2.1", override: true}
+      {:scholar, github: "elixir-nx/scholar", tag: "v0.2.1", optional: true, only_if_available: true, override: true}
     ]
   end
 end

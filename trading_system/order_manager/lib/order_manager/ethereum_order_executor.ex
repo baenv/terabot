@@ -215,6 +215,59 @@ defmodule OrderManager.EthereumOrderExecutor do
     end
   end
 
+  @doc """
+  Get contract address from transaction parameters.
+
+  ## Parameters
+    * `tx_params` - Map with transaction parameters
+
+  Returns:
+    * The contract address to interact with
+  """
+  defp get_contract_address(tx_params) do
+    case tx_params.tx_type do
+      :buy -> get_dex_contract_address(tx_params.dex)
+      :sell -> get_dex_contract_address(tx_params.dex)
+      :approve -> tx_params.token_address
+      _ -> tx_params.to || raise "Missing contract address in transaction parameters"
+    end
+  end
+
+  @doc """
+  Get contract data (ABI-encoded function call) from transaction parameters.
+
+  ## Parameters
+    * `tx_params` - Map with transaction parameters
+
+  Returns:
+    * The ABI-encoded function call data
+  """
+  defp get_contract_data(tx_params) do
+    case tx_params.tx_type do
+      :buy ->
+        encode_swap_function(
+          tx_params.recipient || tx_params.from,
+          tx_params.amount,
+          tx_params.price,
+          tx_params.slippage
+        )
+      :sell ->
+        encode_swap_function(
+          tx_params.recipient || tx_params.from,
+          tx_params.amount,
+          tx_params.price,
+          tx_params.slippage
+        )
+      :approve ->
+        encode_approve_function(
+          tx_params.spender,
+          tx_params.amount
+        )
+      _ ->
+        tx_params.data || "0x"
+    end
+  end
+
   defp prepare_tx_data(tx_params, account) do
     # Prepare transaction data based on the type
     case tx_params.tx_type do

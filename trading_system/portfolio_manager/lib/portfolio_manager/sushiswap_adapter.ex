@@ -64,6 +64,29 @@ defmodule PortfolioManager.SushiSwapAdapter do
     GenServer.call(__MODULE__, {:get_pool_reserves, token0, token1})
   end
 
+  @doc """
+  Gets the liquidity pool reserves directly with server state.
+
+  ## Parameters
+    * `token0` - First token address
+    * `token1` - Second token address
+    * `state` - Server state
+
+  Returns:
+    * `{:ok, reserves}` - The pool reserves
+    * `{:error, reason}` - Error with reason
+  """
+  def get_pool_reserves(token0, token1, state) do
+    with {:ok, pool_address} <- get_pool_address(token0, token1, state),
+         {:ok, reserves} <- fetch_pool_reserves(pool_address, state.eth_client) do
+      {:ok, reserves}
+    else
+      {:error, reason} = error ->
+        Logger.error("Failed to get pool reserves: #{inspect(reason)}")
+        error
+    end
+  end
+
   # Server callbacks
 
   @impl GenServer

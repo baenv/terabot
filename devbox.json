@@ -1,8 +1,10 @@
 {
   "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.14.0/.schema/devbox.schema.json",
   "packages": {
-    "elixir": "1.18.1",
-    "postgresql": "17.2"
+    "elixir":              "1.18.1",
+    "postgresql":          "17.2",
+    "cmake":               "latest",
+    "llvmPackages.openmp": "latest"
   },
   "env_from": ".env",
   "shell": {

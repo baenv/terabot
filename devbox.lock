@@ -1,6 +1,62 @@
 {
   "lockfile_version": "1",
   "packages": {
+    "cmake@latest": {
+      "last_modified": "2025-03-11T17:52:14Z",
+      "resolved": "github:NixOS/nixpkgs/0d534853a55b5d02a4ababa1d71921ce8f0aee4c#cmake",
+      "source": "devbox-search",
+      "version": "3.31.5",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/kk8pi5s49dbs5h0ald0w8cd42c4bwnqr-cmake-3.31.5",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/kk8pi5s49dbs5h0ald0w8cd42c4bwnqr-cmake-3.31.5"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/xn9sd8gm81ls18qkgj5qnmfsnqi1p7gm-cmake-3.31.5",
+              "default": true
+            },
+            {
+              "name": "debug",
+              "path": "/nix/store/7raphg07gdclykxp2d388bf79rqzj8f0-cmake-3.31.5-debug"
+            }
+          ],
+          "store_path": "/nix/store/xn9sd8gm81ls18qkgj5qnmfsnqi1p7gm-cmake-3.31.5"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/blahzgpr25sq0i0p789498ca5pvwh1y3-cmake-3.31.5",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/blahzgpr25sq0i0p789498ca5pvwh1y3-cmake-3.31.5"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/j3f4j0i2h5d7h3sbfnlgva8nk0cydvwq-cmake-3.31.5",
+              "default": true
+            },
+            {
+              "name": "debug",
+              "path": "/nix/store/3szxsv4bcvhkpmvdq6b969lk2r7k7xsz-cmake-3.31.5-debug"
+            }
+          ],
+          "store_path": "/nix/store/j3f4j0i2h5d7h3sbfnlgva8nk0cydvwq-cmake-3.31.5"
+        }
+      }
+    },
     "darwin.apple_sdk.frameworks.CoreServices": {
       "resolved": "github:NixOS/nixpkgs/3549532663732bfd89993204d40543e9edaec4f2?narHash=sha256-ud8vcSzJsZ%2FCK%2Br8%2Fv0lyf4yUntVmDq6Z0A41ODfWbE%3D#darwin.apple_sdk.frameworks.CoreServices",
       "source": "nixpkg"
@@ -56,6 +112,70 @@
     },
     "github:NixOS/nixpkgs/nixpkgs-unstable": {
       "resolved": "github:NixOS/nixpkgs/3549532663732bfd89993204d40543e9edaec4f2?lastModified=1742272065&narHash=sha256-ud8vcSzJsZ%2FCK%2Br8%2Fv0lyf4yUntVmDq6Z0A41ODfWbE%3D"
+    },
+    "llvmPackages.openmp@latest": {
+      "last_modified": "2025-03-11T17:52:14Z",
+      "resolved": "github:NixOS/nixpkgs/0d534853a55b5d02a4ababa1d71921ce8f0aee4c#llvmPackages.openmp",
+      "source": "devbox-search",
+      "version": "19.1.7",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/pb1bwkx14zlyi8k3xc56kih74hmzfg46-openmp-19.1.7",
+              "default": true
+            },
+            {
+              "name": "dev",
+              "path": "/nix/store/gxchy4sdnkvdjlkc9qlny4gizh3cwk8q-openmp-19.1.7-dev"
+            }
+          ],
+          "store_path": "/nix/store/pb1bwkx14zlyi8k3xc56kih74hmzfg46-openmp-19.1.7"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/nwr7iy8gb23j3zxmzsbsnq6jkh8yg0fc-openmp-19.1.7",
+              "default": true
+            },
+            {
+              "name": "dev",
+              "path": "/nix/store/rnvrwch7vamfrznp9bvi4h5lgsf1ymjc-openmp-19.1.7-dev"
+            }
+          ],
+          "store_path": "/nix/store/nwr7iy8gb23j3zxmzsbsnq6jkh8yg0fc-openmp-19.1.7"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/5f1rpi0a1n04sv6j7vyzf7yk09s658ml-openmp-19.1.7",
+              "default": true
+            },
+            {
+              "name": "dev",
+              "path": "/nix/store/xm8c7xs3x8gvr4mq2k8q5sh1w3z9piv2-openmp-19.1.7-dev"
+            }
+          ],
+          "store_path": "/nix/store/5f1rpi0a1n04sv6j7vyzf7yk09s658ml-openmp-19.1.7"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/853dr28r3hvgszcxndnpr8x2z8lg5g75-openmp-19.1.7",
+              "default": true
+            },
+            {
+              "name": "dev",
+              "path": "/nix/store/c1q40wr9ngjn9mrqw99z18lr5rhrcz3m-openmp-19.1.7-dev"
+            }
+          ],
+          "store_path": "/nix/store/853dr28r3hvgszcxndnpr8x2z8lg5g75-openmp-19.1.7"
+        }
+      }
     },
     "postgresql@17.2": {
       "last_modified": "2025-02-20T02:45:56Z",
