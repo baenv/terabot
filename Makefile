@@ -147,15 +147,15 @@ docs:
 
 # Run database migrations (only in trading_system_main)
 migrate: deps
-	cd trading_system/trading_system_main && mix ecto.migrate
+	cd trading_system/core && mix ecto.migrate
 
 # Run database migrations up (only in trading_system_main)
 migrate.up: deps
-	cd trading_system/trading_system_main && mix ecto.migrate
+	cd trading_system/core && mix ecto.migrate
 
 # Run database migrations down (only in trading_system_main)
 migrate.down:
-	cd trading_system/trading_system_main && mix ecto.rollback
+	cd trading_system/core && mix ecto.rollback
 
 # Run individual applications
 run-core:
