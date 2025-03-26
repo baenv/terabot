@@ -7,43 +7,28 @@ defmodule TradingSystemMain.Application do
 
   @impl true
   def start(_type, _args) do
-    # Explicitly start each component application
-    # This ensures they're properly loaded and available
-    start_component_applications()
-
     children = [
-      # Start the proper web server
-      {TradingSystemMain.Web.Server, []}
-
-      # Add other supervised children here if needed
+      # Start the Registry for component registration
+      {Registry, keys: :unique, name: TradingSystemMain.Registry},
+      # Start the PubSub server for system-wide events
+      {Phoenix.PubSub, name: TradingSystemMain.PubSub},
+      # Start the ETS tables for caching
+      TradingSystemMain.Cache,
+      # Start the core application
+      Core.Application,
+      # Start the portfolio manager
+      PortfolioManager.Application,
+      # Start the data collector
+      DataCollector.Application,
+      # Start the order manager
+      OrderManager.Application,
+      # Start the decision engine
+      DecisionEngine.Application
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: TradingSystemMain.Supervisor]
     Supervisor.start_link(children, opts)
-  end
-
-  # Helper function to start all component applications
-  defp start_component_applications do
-    # Start applications in dependency order
-    apps = [
-      :core,
-      :data_collector,
-      :data_processor,
-      :decision_engine,
-      :order_manager,
-      :portfolio_manager
-    ]
-
-    Enum.each(apps, fn app ->
-      case Application.ensure_all_started(app) do
-        {:ok, _} ->
-          IO.puts("Started #{app} application successfully")
-
-        {:error, {app, reason}} ->
-          IO.puts("Failed to start #{app}: #{inspect(reason)}")
-      end
-    end)
   end
 end

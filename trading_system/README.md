@@ -1,117 +1,302 @@
-# Trading System
+# Terabot Trading System
 
-An Elixir-based cryptocurrency trading system using the "poncho" architecture pattern.
+A comprehensive trading system built with Elixir for managing cryptocurrency portfolios across multiple chains and DEXes.
 
-## Project Structure
+## System Architecture
 
-```
-trading_system/
-├── mix.exs                # Root project file for shared tasks
-├── config/               # Shared configuration
-├── core/                # Core shared functionality
-├── data/                # Historical and processed data storage
-├── data_collector/      # Data collection service
-├── data_processor/      # Data processing service 
-├── decision_engine/     # Trading decision logic
-├── order_manager/       # Order execution & management
-├── portfolio_manager/   # Portfolio tracking & management
-└── trading_system_main/ # Main supervisor application
-```
+The system consists of several OTP applications, with `trading_system_main` as the primary coordinator:
 
-## Applications
+1. **Trading System Main** - Main application coordinating all components
+2. **Core** - Central business logic and data models
+3. **Data Collector** - Collects market data and blockchain information
+4. **Portfolio Manager** - Manages portfolio tracking and position monitoring
+5. **Order Manager** - Handles order execution and transaction management
+6. **Web Dashboard** - User interface for system interaction
 
-- **core**: Shared libraries, utilities, and database schemas
-- **data_collector**: Binance API integration for market data collection
-- **data_processor**: Technical analysis and data processing
-- **decision_engine**: Trading strategy implementation
-- **order_manager**: Order execution and management
-- **portfolio_manager**: Portfolio tracking and performance metrics
-- **trading_system_main**: Main application supervisor and system orchestration
+Each application is an independent OTP application that can run separately or as part of the complete system. The `trading_system_main` application serves as the coordinator, starting and supervising all other applications when running the complete system.
 
-## Setup
+### Running Individual Applications
 
-1. Install devbox (if not already installed):
+Each application can be run independently for development or testing:
+
 ```bash
-curl -fsSL https://get.jetpack.io/devbox | bash
-```
+# Change to the application directory
+cd trading_system/core
+mix deps.get
+mix compile
+mix run --no-halt
 
-2. Initialize development environment:
-```bash
-make init-shell  # Install required packages and enter devbox shell
-make init-db     # Initialize the databases and start services
-make init-mix    # Install Elixir dependencies
-```
-
-3. Configure environment variables in `.env`:
-```bash
-# Binance API configuration
-BINANCE_API_KEY=your_api_key
-BINANCE_API_SECRET=your_api_secret
-```
-
-4. Run the application:
-```bash
+# Or for other applications
+cd trading_system/portfolio_manager
+mix deps.get
+mix compile
 mix run --no-halt
 ```
 
-### Database Management
+### Running the Complete System
 
-The project uses PostgreSQL managed through devbox. Common database commands:
+To run the entire system together:
 
 ```bash
-make start     # Start database services
-make stop      # Stop database services
-make clean-db  # Clean database data
-make reset-db  # Reset database (clean and reinitialize)
+# Using the Makefile
+make run
+
+# Or directly
+cd trading_system/trading_system_main
+mix deps.get
+mix compile
+mix run --no-halt
 ```
 
-### Development Commands
+## Prerequisites
 
-The project provides several make commands for development:
+- Elixir 1.17 or later
+- Erlang/OTP 26 or later
+- PostgreSQL 14 or later
+- Node.js 18 or later (for web dashboard assets)
+
+## Environment Setup
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/terabot.git
+cd terabot
+```
+
+2. Install dependencies:
+```bash
+make deps
+cd trading_system/web_dashboard/assets && npm install
+```
+
+3. Set up environment variables:
+```bash
+# Create a .env file in the root directory
+cp .env.example .env
+
+# Edit .env with your configuration
+```
+
+Required environment variables:
+```bash
+# Database
+DATABASE_URL=postgresql://user:password@localhost/terabot
+
+# Ethereum
+ETH_RPC_URL=http://localhost:8545
+ETH_CHAIN_ID=1
+
+# Uniswap
+UNISWAP_FACTORY_ADDRESS=0x...
+UNISWAP_ROUTER_ADDRESS=0x...
+
+# SushiSwap
+SUSHISWAP_FACTORY_ADDRESS=0x...
+SUSHISWAP_ROUTER_ADDRESS=0x...
+
+# Web Dashboard
+SECRET_KEY_BASE=your_secret_key_base
+```
+
+4. Set up the database:
+```bash
+make migrate
+```
+
+## Running the System
+
+1. Start the system:
+```bash
+# Start all applications through trading_system_main
+make run
+```
+
+2. Access the web dashboard:
+- Open your browser and navigate to `http://localhost:4000`
+- Default admin credentials:
+  - Email: admin@example.com
+  - Password: admin123
+
+## Development Commands
+
+All development commands are executed through the Makefile:
 
 ```bash
-make init-shell  # Enter devbox shell with required packages
-make init-db     # Initialize and start databases
-make init-mix    # Install Elixir dependencies
-make test        # Run tests
-make all         # Run init-mix and tests
+# Initialize development environment
+make init-mix
+
+# Run tests
+make test
+make test.coverage
+
+# Format code
+make format
+make format.check
+
+# Run static analysis
+make lint
+
+# Database operations
+make migrate
+make migrate.up
+make migrate.down
+
+# Clean and build
+make clean
+make build
+
+# Run with console
+make run.console
+```
+
+## Web Dashboard Features
+
+### Portfolio Management
+
+1. **Adding an Account**
+   - Navigate to "Portfolios" → "Add Account"
+   - Enter your Ethereum wallet address
+   - Select the account type (DEX or CEX)
+   - Save the account
+
+2. **Viewing Portfolio**
+   - Click on your portfolio in the dashboard
+   - View:
+     - ETH balance
+     - Token balances
+     - Liquidity pool positions
+     - Transaction history
+
+3. **Portfolio Analytics**
+   - View portfolio performance metrics
+   - Check historical data
+   - Analyze trading patterns
+
+### Trading Interface
+
+1. **Market Overview**
+   - View current market prices
+   - Monitor trading pairs
+   - Track market trends
+
+2. **Order Management**
+   - Place new orders
+   - View active orders
+   - Cancel or modify orders
+
+3. **Position Management**
+   - Monitor open positions
+   - View position details
+   - Close positions
+
+### System Monitoring
+
+1. **Health Status**
+   - View system component status
+   - Monitor connection health
+   - Check error logs
+
+2. **Performance Metrics**
+   - View system performance
+   - Monitor resource usage
+   - Track API response times
+
+## API Interface
+
+The system exposes a REST API for programmatic access:
+
+### Authentication
+```bash
+# Get authentication token
+curl -X POST http://localhost:4000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email": "user@example.com", "password": "password"}'
+```
+
+### Portfolio API
+```bash
+# Get portfolio status
+curl -X GET http://localhost:4000/api/portfolios/{portfolio_id} \
+  -H "Authorization: Bearer {token}"
+
+# Get account balances
+curl -X GET http://localhost:4000/api/accounts/{account_id}/balances \
+  -H "Authorization: Bearer {token}"
+```
+
+### Trading API
+```bash
+# Place order
+curl -X POST http://localhost:4000/api/orders \
+  -H "Authorization: Bearer {token}" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "type": "market",
+    "side": "buy",
+    "symbol": "ETH/USDT",
+    "amount": "1.0"
+  }'
 ```
 
 ## Development
 
-Each application is independent and can be tested separately:
-
+### Running Tests
 ```bash
-cd app_name
+# Run all tests
 mix test
+
+# Run specific test file
+mix test test/portfolio_manager/tracker/worker_test.exs
 ```
 
-For running all tests including integration tests:
+### Code Style
 ```bash
-mix test.all
+# Format code
+mix format
+
+# Check code style
+mix credo
 ```
 
-## Architecture
+### Database Migrations
+```bash
+# Create migration
+mix ecto.gen.migration add_new_field
 
-The system follows the "poncho" project pattern, where each component is an independent OTP application that can be developed and tested in isolation. The applications communicate through well-defined interfaces using direct process calls and shared database access.
+# Run migrations
+mix ecto.migrate
 
-### Key Features
+# Rollback migration
+mix ecto.rollback
+```
 
-- Fault-tolerant design using supervision trees
-- PostgreSQL-based data persistence
-- Real-time market data processing for multiple trading pairs (BTCUSDT, ETHUSDT, BNBUSDT)
-- Extensible strategy framework
-- Risk management controls
-- Portfolio tracking and metrics
+## Troubleshooting
 
-## Dependencies
+### Common Issues
 
-The system is built as a collection of independent applications, each with its own dependencies. Core dependencies include:
+1. **Database Connection**
+   - Check DATABASE_URL in .env
+   - Ensure PostgreSQL is running
+   - Verify database exists
 
-- **dotenvy**: Environment variable management
-- **ecto**: Database interactions and schemas
-- **tai**: Trading infrastructure support
-- Additional dependencies are managed within each application's mix.exs file
+2. **Ethereum Node Connection**
+   - Verify ETH_RPC_URL is correct
+   - Check network connectivity
+   - Ensure Ethereum node is running
+
+3. **Web Dashboard Issues**
+   - Clear browser cache
+   - Check browser console for errors
+   - Verify asset compilation
+
+### Logs
+```bash
+# View application logs
+tail -f /var/log/terabot/application.log
+
+# View error logs
+tail -f /var/log/terabot/error.log
+```
 
 ## Contributing
 
@@ -120,3 +305,7 @@ The system is built as a collection of independent applications, each with its o
 3. Commit your changes
 4. Push to the branch
 5. Create a new Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details. 

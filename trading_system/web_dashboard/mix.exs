@@ -5,7 +5,7 @@ defmodule WebDashboard.MixProject do
     [
       app: :web_dashboard,
       version: "0.1.0",
-      elixir: "~> 1.15",
+      elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       deps: deps()
@@ -28,10 +28,10 @@ defmodule WebDashboard.MixProject do
   defp deps do
     [
       # Web dependencies
-      {:plug, "~> 1.14"},
-      {:plug_cowboy, "~> 2.6"},
-      {:jason, "~> 1.4"},
-      
+      {:plug, github: "elixir-plug/plug", tag: "v1.14.2", override: true},
+      {:plug_cowboy, github: "elixir-plug/plug_cowboy", tag: "v2.6.1", override: true},
+      {:jason, github: "michalmuskala/jason", tag: "v1.4.1", override: true},
+
       # Internal dependencies (poncho style)
       {:core, path: "../core", override: true},
       {:portfolio_manager, path: "../portfolio_manager", override: true},

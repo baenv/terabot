@@ -8,23 +8,18 @@ defmodule PortfolioManager.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      # Start the Registry for adapter processes
-      {Registry, keys: :unique, name: PortfolioManager.AdapterRegistry},
-      
-      # Start the PubSub system for event broadcasting
+      # Start the Registry for portfolio tracking
+      {Registry, keys: :unique, name: PortfolioManager.Registry},
+      # Start the PubSub server for portfolio updates
       {Phoenix.PubSub, name: PortfolioManager.PubSub},
-      
-      # Start the Tracker process
-      {PortfolioManager.Tracker, []},
-      
-      # Start the Adapters Supervisor
-      {PortfolioManager.Adapters.Supervisor, []},
-      
-      # Start the Web API server
-      {PortfolioManager.Web.Server, []},
-      
-      # Start the Webhook server for real-time updates
-      {Plug.Cowboy, scheme: :http, plug: PortfolioManager.WebhookController, options: [port: webhook_port()]}
+      # Start the portfolio tracker supervisor
+      {PortfolioManager.Tracker.Supervisor, []},
+      # Start the Ethereum adapter
+      PortfolioManager.EthereumAdapter,
+      # Start the Uniswap adapter
+      PortfolioManager.UniswapAdapter,
+      # Start the SushiSwap adapter
+      PortfolioManager.SushiSwapAdapter
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
@@ -32,7 +27,7 @@ defmodule PortfolioManager.Application do
     opts = [strategy: :one_for_one, name: PortfolioManager.Supervisor]
     Supervisor.start_link(children, opts)
   end
-  
+
   # Get webhook port from environment or use default
   # Try to find an available port starting from the base port
   defp webhook_port do
@@ -40,7 +35,7 @@ defmodule PortfolioManager.Application do
       nil -> 4005 # Default base port (different from API server port 4004)
       port_str -> String.to_integer(port_str)
     end
-    
+
     # If we're in development mode, try to find an available port
     # by incrementing from the base port
     if Mix.env() == :dev do
@@ -49,7 +44,7 @@ defmodule PortfolioManager.Application do
       base_port
     end
   end
-  
+
   # Find an available port by incrementing from the base port
   # This helps avoid conflicts in development
   defp find_available_port(port, max_attempts \\ 10)

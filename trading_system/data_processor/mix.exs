@@ -5,7 +5,7 @@ defmodule DataProcessor.MixProject do
     [
       app: :data_processor,
       version: "0.1.0",
-      elixir: "~> 1.17",
+      elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
       deps: deps()
     ]
@@ -23,8 +23,8 @@ defmodule DataProcessor.MixProject do
   defp deps do
     [
       {:core, path: "../core"},
-      {:statistics, "~> 0.6.2"},
-      {:flow, "~> 1.2"}
+      {:statistics, github: "msharp/elixir-statistics", override: true},
+      {:flow, github: "dashbitco/flow", tag: "v1.2.4", override: true}
     ]
   end
 end

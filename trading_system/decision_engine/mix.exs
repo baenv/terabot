@@ -5,7 +5,7 @@ defmodule DecisionEngine.MixProject do
     [
       app: :decision_engine,
       version: "0.1.0",
-      elixir: "~> 1.17",
+      elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
       deps: deps()
     ]
@@ -24,8 +24,8 @@ defmodule DecisionEngine.MixProject do
     [
       {:core, path: "../core"},
       {:data_processor, path: "../data_processor"},
-      {:nx, "~> 0.6.2"},
-      {:scholar, "~> 0.2.1"}
+      {:nx, github: "elixir-nx/nx", tag: "v0.6.2", override: true},
+      {:scholar, github: "elixir-nx/scholar", tag: "v0.2.1", override: true}
     ]
   end
 end

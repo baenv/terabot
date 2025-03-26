@@ -1,0 +1,17 @@
+import Config
+
+# Core database configuration
+config :core, Core.Repo,
+  database: System.get_env("DB_NAME"),
+  username: System.get_env("DB_USER"),
+  password: System.get_env("DB_PASS"),
+  hostname: System.get_env("DB_HOST"),
+  port: String.to_integer(System.get_env("DB_PORT") || "5432"),
+  pool_size: 20,
+  socket_dir: nil
+
+# Logger configuration
+config :logger, :console,
+  format: "$time $metadata[$level] $message\n",
+  metadata: [:request_id],
+  level: :info

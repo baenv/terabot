@@ -8,8 +8,14 @@ defmodule OrderManager.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      # Starts a worker by calling: OrderManager.Worker.start_link(arg)
-      # {OrderManager.Worker, arg}
+      # Start the transaction manager
+      OrderManager.TransactionManager,
+      # Start the Ethereum order executor
+      OrderManager.EthereumOrderExecutor,
+      # Start the transaction monitor supervisor
+      {OrderManager.Monitor.Supervisor, []},
+      # Start the PubSub server for order notifications
+      {Phoenix.PubSub, name: OrderManager.PubSub}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

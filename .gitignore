@@ -47,10 +47,6 @@ logfile
 *.ez
 mix.lock
 
-# Generated documentation
-/doc/
-/docs/
-
 # Testing
 /cover/
 /test/tmp/
@@ -59,3 +55,5 @@ mix.lock
 /data
 
 .env
+
+.cursor

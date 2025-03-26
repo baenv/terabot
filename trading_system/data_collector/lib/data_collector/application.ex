@@ -8,8 +8,14 @@ defmodule DataCollector.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      # Starts a worker by calling: DataCollector.Worker.start_link(arg)
-      # {DataCollector.Worker, arg}
+      # Start the Registry for DEX trackers
+      {Registry, keys: :unique, name: DataCollector.Registry},
+      # Start the Ethereum data collector worker
+      DataCollector.EthereumWorker,
+      # Start the DEX price tracker supervisor
+      {DataCollector.DexTracker.Supervisor, []},
+      # Start the PubSub server for data notifications
+      {Phoenix.PubSub, name: DataCollector.PubSub}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
