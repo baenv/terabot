@@ -64,28 +64,32 @@ defmodule WebDashboard.Telemetry do
       ),
 
       # Order Metrics
-      counter("order_manager.orders.placed",
-        description: "Number of orders placed"
-      ),
-      counter("order_manager.orders.fulfilled",
-        description: "Number of orders fulfilled"
-      ),
-      summary("order_manager.order.execution_time",
+      summary("order_manager.execute.duration",
         unit: {:native, :millisecond},
-        description: "Order execution time"
+        description: "Order execution duration"
       ),
 
-      # VM Metrics
-      summary("vm.memory.total", unit: {:byte, :kilobyte}),
-      summary("vm.total_run_queue_lengths.total"),
-      summary("vm.total_run_queue_lengths.cpu"),
-      summary("vm.total_run_queue_lengths.io")
+      # System Metrics
+      last_value("web_dashboard.vm.process_count",
+        description: "Total number of processes"
+      ),
+      last_value("web_dashboard.vm.memory.total",
+        unit: :byte,
+        description: "Total memory allocated"
+      ),
+      last_value("web_dashboard.vm.memory.processes",
+        unit: :byte,
+        description: "Memory allocated for processes"
+      ),
+      last_value("web_dashboard.vm.system.schedulers_online",
+        description: "Number of schedulers online"
+      )
     ]
   end
 
   defp periodic_measurements do
     [
-      # Custom periodic measurements
+      # Custom metrics - simpler is better for now
       {WebDashboard.Metrics, :collect_system_metrics, []}
     ]
   end

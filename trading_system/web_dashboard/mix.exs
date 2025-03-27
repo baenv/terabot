@@ -33,13 +33,13 @@ defmodule WebDashboard.MixProject do
 
       # Framework
       {:phoenix, "~> 1.7.10"},
-      {:phoenix_html, "~> 3.3.1"},
+      {:phoenix_html, "~> 3.3.3"},
       {:phoenix_live_reload, "~> 1.4.1", only: :dev},
       {:phoenix_live_view, "~> 0.20.1"},
       {:phoenix_pubsub, git: "https://github.com/phoenixframework/phoenix_pubsub.git", tag: "v2.1.3", override: true},
 
       # Telemetry
-      {:telemetry_metrics, "~> 0.6.1"},
+      {:telemetry_metrics, "~> 0.6.2"},
       {:telemetry_poller, "~> 1.0.0"},
       {:telemetry, git: "https://github.com/beam-telemetry/telemetry.git", tag: "v1.2.1", override: true},
 
@@ -47,13 +47,13 @@ defmodule WebDashboard.MixProject do
       {:number, "~> 1.0"},
 
       # Backend
-      {:plug_cowboy, "~> 2.5"},
+      {:plug_cowboy, "~> 2.7.0"},
       {:jason, git: "https://github.com/michalmuskala/jason.git", tag: "v1.4.1", override: true},
-      {:gettext, "~> 0.20"},
+      {:gettext, "~> 0.23.1"},
 
       # Assets
-      {:esbuild, "~> 0.7", runtime: Mix.env() == :dev},
-      {:tailwind, "~> 0.2", runtime: Mix.env() == :dev}
+      {:esbuild, "~> 0.9.0", runtime: Mix.env() == :dev},
+      {:tailwind, "~> 0.3.1", runtime: Mix.env() == :dev}
     ]
   end
 

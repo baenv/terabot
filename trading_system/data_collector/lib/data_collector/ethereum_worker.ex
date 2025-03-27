@@ -251,7 +251,6 @@ defmodule DataCollector.EthereumWorker do
       # These are free public endpoints that may have rate limits
       fallback_urls = [
         "https://eth.llamarpc.com",
-        "https://rpc.ankr.com/eth",
         "https://ethereum.publicnode.com"
       ]
 

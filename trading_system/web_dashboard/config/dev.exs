@@ -25,9 +25,9 @@ config :tailwind,
 config :phoenix, :stacktrace_depth, 20
 config :phoenix, :plug_init_mode, :runtime
 
-# Configure the endpoints - ensure we listen on all interfaces to make it accessible from other containers
+# Configure the endpoints - ensure we listen on all interfaces to make it accessible
 config :web_dashboard, WebDashboard.Endpoint,
-  http: [ip: {0, 0, 0, 0}, port: 4001],
+  http: [ip: {0, 0, 0, 0}, port: 4000],
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
@@ -42,7 +42,8 @@ config :web_dashboard, WebDashboard.Endpoint,
       ~r"priv/gettext/.*(po)$",
       ~r"lib/web_dashboard/(controllers|live|components)/.*(ex|heex)$"
     ]
-  ]
+  ],
+  server: true  # Ensure the server starts
 
 # Set a higher stacktrace during development
 config :logger, :console, level: :debug

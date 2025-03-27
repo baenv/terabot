@@ -4,6 +4,7 @@ defmodule WebDashboard.FallbackController do
   def not_found(conn, _params) do
     conn
     |> put_status(404)
-    |> text("Not found")
+    |> put_view(WebDashboard.ErrorHTML)
+    |> render("404.html")
   end
 end

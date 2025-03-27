@@ -9,6 +9,8 @@ defmodule TradingSystemMain.Application do
   @default_eth_rpc_urls [
     "https://eth.llamarpc.com",
     "https://ethereum.publicnode.com",
+    "https://rpc.flashbots.net/",
+    "https://1rpc.io/eth",
     "https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161" # Public Infura endpoint
   ]
 
@@ -119,6 +121,19 @@ defmodule TradingSystemMain.Application do
   # Helper function to conditionally start an application
   defp maybe_start_application(app) do
     app_module = Module.concat([Macro.camelize(to_string(app)), "Application"])
+
+    # If the app is web_dashboard, make sure server is enabled
+    if app == :web_dashboard do
+      # Ensure the server is set to start
+      config = Application.get_env(:web_dashboard, WebDashboard.Endpoint, [])
+      unless Keyword.get(config, :server) do
+        Application.put_env(:web_dashboard, WebDashboard.Endpoint, Keyword.put(config, :server, true))
+      end
+
+      # Log web dashboard URL
+      port = get_in(config, [:http, :port]) || 4000
+      Logger.info("WebDashboard will be available at: http://localhost:#{port}")
+    end
 
     case Application.ensure_all_started(app) do
       {:ok, _} ->

@@ -17,6 +17,14 @@ defmodule WebDashboard.Router do
     plug :accepts, ["json"]
   end
 
+  # Debug routes to test server functionality
+  scope "/debug", WebDashboard do
+    pipe_through :api
+
+    get "/ping", StatusController, :index
+    get "/health", StatusController, :health
+  end
+
   scope "/", WebDashboard do
     pipe_through :browser
 
