@@ -26,36 +26,50 @@ defmodule PortfolioManager.MixProject do
       {:core, path: "../core", override: true},
 
       # Phoenix dependencies
-      {:phoenix_pubsub, github: "phoenixframework/phoenix_pubsub", tag: "v2.1.3", override: true},
+      {:phoenix_pubsub, "~> 2.1.3", override: true},
 
       # Web dependencies
-      {:plug, github: "elixir-plug/plug", tag: "v1.14.2", override: true},
-      {:plug_cowboy, github: "elixir-plug/plug_cowboy", tag: "v2.6.1", override: true},
+      {:plug, "~> 1.14.2", override: true},
+      {:plug_cowboy, "~> 2.6.2", override: true},
       {:cowboy, "~> 2.9.0", override: true},
       {:cowlib, "~> 2.11.0", override: true},
       {:ranch, "~> 1.8.0", override: true},
 
       # Ethereum dependencies
-      {:ethereumex, github: "mana-ethereum/ethereumex", override: true},
-      {:ex_abi, github: "poanetwork/ex_abi", override: true},
-      {:ex_secp256k1, github: "omgnetwork/ex_secp256k1", override: true},
-      {:rustler_precompiled, github: "philss/rustler_precompiled", tag: "v0.8.0", override: true},
+      {:ethereumex, "~> 0.10.7", override: true},
+      {:ex_abi, "~> 0.5.16", override: true},
+      {:ex_secp256k1, "~> 0.7.4", override: true},
+      {:ex_keccak, "~> 0.7.3", override: true},
+      {:rustler, "~> 0.30.0", override: true},
+      {:rustler_precompiled, "~> 0.8.2", override: true},
 
       # Decimal for precise calculations
-      {:decimal, github: "ericmj/decimal", tag: "v2.1.1", override: true},
+      {:decimal, "~> 2.1.1", override: true},
 
       # HTTP client
-      {:httpoison, github: "edgurgel/httpoison", tag: "v2.2.1", override: true},
-      {:jason, github: "michalmuskala/jason", tag: "v1.4.1", override: true},
-      {:finch, github: "sneako/finch", tag: "v0.16.0", override: true},
+      {:httpoison, "~> 2.2.2", override: true},
+      {:jason, "~> 1.4.4", override: true},
+      {:finch, "~> 0.16.0", override: true},
 
       # Monitoring and logging
-      {:telemetry, github: "beam-telemetry/telemetry", tag: "v1.2.1", override: true},
-      {:telemetry_metrics, github: "beam-telemetry/telemetry_metrics", tag: "v0.6.1", override: true},
-      {:telemetry_poller, github: "beam-telemetry/telemetry_poller", tag: "v1.0.0", override: true},
+      {:telemetry, "~> 1.2.1", override: true},
+      {:telemetry_metrics, "~> 0.6.2", override: true},
+      {:telemetry_poller, "~> 1.0.0", override: true},
 
       # Testing
-      {:mox, "~> 1.1.0", only: :test}
+      {:mox, "~> 1.1.0", only: :test},
+
+      # Additional dependencies needed by other modules to ensure compatibility
+      {:nimble_options, "~> 1.1.1", override: true},
+      {:nimble_pool, "~> 1.1.0", override: true},
+      {:hackney, "~> 1.23.0", override: true},
+      {:unicode_util_compat, "~> 0.7.0", override: true},
+      {:certifi, "~> 2.14.0", override: true},
+      {:parse_trans, "~> 3.4.1", override: true},
+      {:castore, "~> 1.0.12", override: true},
+      {:mint, "~> 1.7.1", override: true},
+      {:mime, "~> 2.0.6", override: true},
+      {:db_connection, "~> 2.7.0", override: true}
     ]
   end
 end

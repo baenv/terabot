@@ -44,46 +44,66 @@ defmodule TradingSystemMain.MixProject do
     [
       # Poncho project dependencies
       {:core, path: "../core"},
-      # Temporarily disabled due to Plug dependency issues
       {:portfolio_manager, path: "../portfolio_manager"},
       {:data_collector, path: "../data_collector"},
       {:order_manager, path: "../order_manager"},
       {:decision_engine, path: "../decision_engine"},
-      # Temporarily disabled due to compilation issues
       {:web_dashboard, path: "../web_dashboard"},
       {:data_processor, path: "../data_processor"},
 
       # Ethereum dependencies
-      {:ethereumex, github: "mana-ethereum/ethereumex", override: true},
+      {:ethereumex, "~> 0.10.7", override: true},
+      {:ex_abi, "~> 0.5.16", override: true},
+      {:ex_secp256k1, "~> 0.7.4", override: true},
+      {:ex_keccak, "~> 0.7.3", override: true},
+      {:rustler, "~> 0.30.0", override: true},
 
       # Phoenix dependencies
-      {:phoenix, "~> 1.7.7", override: true},
-      {:phoenix_html, "~> 3.3.1", override: true},
-      {:phoenix_live_reload, "~> 1.2", override: true},
-      {:phoenix_live_view, "~> 0.20.1", override: true},
-      {:phoenix_pubsub, github: "phoenixframework/phoenix_pubsub", tag: "v2.1.3", override: true},
-      {:floki, ">= 0.30.0", only: :test, override: true},
-      {:phoenix_live_dashboard, "~> 0.8.2", override: true},
-      {:telemetry_metrics, github: "beam-telemetry/telemetry_metrics", tag: "v0.6.1", override: true},
-      {:telemetry_poller, github: "beam-telemetry/telemetry_poller", tag: "v1.0.0", override: true},
-      {:gettext, "~> 0.20", override: true},
-      {:jason, "~> 1.4", override: true},
-      {:plug, github: "elixir-plug/plug", tag: "v1.14.2", override: true},
-      {:plug_cowboy, github: "elixir-plug/plug_cowboy", tag: "v2.6.1", override: true},
+      {:phoenix, "~> 1.7.20", override: true},
+      {:phoenix_html, "~> 3.3.4", override: true},
+      {:phoenix_live_reload, "~> 1.4.1", override: true},
+      {:phoenix_live_view, "~> 0.20.17", override: true},
+      {:phoenix_pubsub, "~> 2.1.3", override: true},
+      {:floki, ">= 0.37.1", only: :test, override: true},
+      {:phoenix_live_dashboard, "~> 0.8.6", override: true},
+      {:telemetry_metrics, "~> 0.6.2", override: true},
+      {:telemetry_poller, "~> 1.0.0", override: true},
+      {:gettext, "~> 0.23.1", override: true},
+      {:jason, "~> 1.4.4", override: true},
+      {:plug, "~> 1.14.2", override: true},
+      {:plug_cowboy, "~> 2.6.2", override: true},
       {:cowboy, "~> 2.9.0", override: true},
       {:cowlib, "~> 2.11.0", override: true},
       {:ranch, "~> 1.8.0", override: true},
-      {:statistics, github: "msharp/elixir-statistics", override: true},
-      {:telemetry, "~> 1.0", override: true},
-      {:decimal, github: "ericmj/decimal", tag: "v2.1.1", override: true},
-      {:websockex, github: "Azolo/websockex", tag: "v0.4.3", override: true},
-      {:finch, github: "sneako/finch", tag: "v0.16.0", override: true},
+      {:statistics, "~> 0.6.3", override: true},
+      {:telemetry, "~> 1.2.1", override: true},
+      {:decimal, "~> 2.1.1", override: true},
+      {:websockex, "~> 0.4.3", override: true},
+      {:finch, "~> 0.16.0", override: true},
 
-      # ML dependencies - use hex.pm version which should have proper app files
-      {:nx, "~> 0.6.1", override: true},
+      # ML dependencies
+      {:nx, "~> 0.6.4", override: true},
+      {:complex, "~> 0.6.0", override: true},
 
       # HTTP client
-      {:httpoison, github: "edgurgel/httpoison", tag: "v2.2.1", override: true}
+      {:httpoison, "~> 2.2.2", override: true},
+
+      # Additional dependencies needed by other modules
+      {:rustler_precompiled, "~> 0.8.2", override: true},
+      {:nimble_options, "~> 1.1.1", override: true},
+      {:nimble_pool, "~> 1.1.0", override: true},
+      {:hackney, "~> 1.23.0", override: true},
+      {:unicode_util_compat, "~> 0.7.0", override: true},
+      {:certifi, "~> 2.14.0", override: true},
+      {:parse_trans, "~> 3.4.1", override: true},
+      {:castore, "~> 1.0.12", override: true},
+      {:mint, "~> 1.7.1", override: true},
+      {:mime, "~> 2.0.6", override: true},
+      {:db_connection, "~> 2.7.0", override: true},
+      {:ecto, "~> 3.10.3", override: true},
+
+      # Testing
+      {:mox, "~> 1.1.0", only: :test, override: true}
     ]
   end
 
