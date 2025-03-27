@@ -8,8 +8,10 @@ defmodule Core.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      # Temporarily disable Repo until database configuration is complete
-      # Core.Repo
+      # Start the Repo
+      Core.Repo,
+      # Start the KeyVault
+      Core.Vault.KeyVault
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

@@ -8,8 +8,12 @@ defmodule DecisionEngine.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      # Starts a worker by calling: DecisionEngine.Worker.start_link(arg)
-      # {DecisionEngine.Worker, arg}
+      # Start the PubSub system for decision engine events
+      {Phoenix.PubSub, name: DecisionEngine.PubSub},
+      # Start the strategy manager
+      DecisionEngine.StrategyManager,
+      # Start the signal processor
+      DecisionEngine.SignalProcessor
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
