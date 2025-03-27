@@ -47,6 +47,10 @@ defmodule DataCollector.EthereumWorker do
     # In a production environment, we would establish a WebSocket connection
     # to an Ethereum node. For development, we'll start with a periodic poll.
 
+    # Get the Ethereum RPC URL
+    eth_rpc_url = get_eth_rpc_url()
+    Logger.info("Initializing Ethereum Worker with RPC URL: #{eth_rpc_url}")
+
     # Schedule the first data collection
     schedule_data_collection()
 
@@ -54,7 +58,8 @@ defmodule DataCollector.EthereumWorker do
       latest_block: nil,
       latest_gas_price: nil,
       transactions: %{},
-      eth_rpc_url: get_eth_rpc_url()
+      eth_rpc_url: eth_rpc_url,
+      connection_attempts: 0
     }}
   end
 
@@ -116,19 +121,35 @@ defmodule DataCollector.EthereumWorker do
 
       # Broadcast updates if there are changes
       if latest_block != state.latest_block do
+        block_number = latest_block["number"]
+        Logger.info("New Ethereum block received: #{block_number}")
         PubSub.broadcast(DataCollector.PubSub, "ethereum:blocks", {:new_block, latest_block})
       end
 
       if gas_price != state.latest_gas_price do
+        gas_price_gwei = gas_price / 1_000_000_000
+        Logger.info("Gas price updated: #{gas_price_gwei} Gwei")
         PubSub.broadcast(DataCollector.PubSub, "ethereum:gas", {:gas_price_update, gas_price})
       end
 
-      # Return updated state
-      %{state | latest_block: latest_block, latest_gas_price: gas_price}
+      # Reset connection attempts on success
+      %{state | latest_block: latest_block, latest_gas_price: gas_price, connection_attempts: 0}
     else
       {:error, reason} ->
-        Logger.error("Failed to collect Ethereum data: #{reason}")
-        state
+        # Increment connection attempt counter
+        attempts = state.connection_attempts + 1
+
+        # If we've hit a lot of errors, log at warning level instead of error to reduce noise
+        if attempts <= 5 do
+          Logger.error("Failed to collect Ethereum data: #{reason} (attempt #{attempts})")
+        else
+          # Only log every 10th error after the first 5 to reduce log spam
+          if rem(attempts, 10) == 0 do
+            Logger.warn("Still unable to connect to Ethereum node after #{attempts} attempts: #{reason}")
+          end
+        end
+
+        %{state | connection_attempts: attempts}
     end
   end
 
@@ -221,6 +242,23 @@ defmodule DataCollector.EthereumWorker do
   defp get_eth_rpc_url do
     # Get Ethereum RPC URL from environment variables
     # Default to a local development node if not configured
-    System.get_env("ETH_RPC_URL", "http://localhost:8545")
+    primary_url = System.get_env("ETH_RPC_URL")
+
+    if primary_url do
+      primary_url
+    else
+      # Fallback to these public endpoints if no environment variable is set
+      # These are free public endpoints that may have rate limits
+      fallback_urls = [
+        "https://eth.llamarpc.com",
+        "https://rpc.ankr.com/eth",
+        "https://ethereum.publicnode.com"
+      ]
+
+      # Choose a random fallback URL
+      fallback_url = Enum.random(fallback_urls)
+      Logger.warn("No ETH_RPC_URL environment variable found, using fallback: #{fallback_url}")
+      fallback_url
+    end
   end
 end

@@ -131,6 +131,7 @@ defmodule DataCollector.DexTracker.Worker do
 
         # Only broadcast if price changed
         if price != state.latest_price do
+          Logger.info("#{state.dex}:#{state.token_pair} price updated: #{price}")
           PubSub.broadcast(
             DataCollector.PubSub,
             "dex:#{state.dex}:#{state.token_pair}",

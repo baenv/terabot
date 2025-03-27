@@ -8,6 +8,9 @@ defmodule TradingSystemMain.Application do
 
   @impl true
   def start(_type, _args) do
+    # Load environment variables from .env file
+    load_env()
+
     # Start applications in the correct order
     ensure_started(:core)
     ensure_started(:data_collector)
@@ -40,6 +43,30 @@ defmodule TradingSystemMain.Application do
         Logger.info("#{app} successfully started")
       {:error, {dep, reason}} ->
         Logger.error("Failed to start #{app}: dependency #{dep} failed with reason: #{inspect(reason)}")
+    end
+  end
+
+  # Load environment variables from .env file
+  defp load_env do
+    env_file = Path.join(File.cwd!(), "../../.env")
+    if File.exists?(env_file) do
+      env_file
+      |> File.read!()
+      |> String.split("\n")
+      |> Enum.filter(fn line ->
+        String.trim(line) != "" && !String.starts_with?(String.trim(line), "#")
+      end)
+      |> Enum.each(fn line ->
+        case String.split(line, "=", parts: 2) do
+          [key, value] ->
+            System.put_env(String.trim(key), String.trim(value))
+          _ ->
+            nil
+        end
+      end)
+      Logger.info("Loaded environment variables from .env file")
+    else
+      Logger.warn("No .env file found at #{env_file}")
     end
   end
 end
