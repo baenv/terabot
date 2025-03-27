@@ -8,7 +8,24 @@ defmodule WebDashboard.Layouts do
 
   use Phoenix.Component
 
+  # Add required imports
+  import Phoenix.HTML
+  import Phoenix.HTML.Form
+  import Phoenix.LiveView.Helpers
+  import Phoenix.Controller, only: [get_csrf_token: 0]
+  import WebDashboard.Gettext
+
+  alias Phoenix.LiveView.JS
   alias WebDashboard.CoreComponents
+
+  # Define the path sigil
+  def sigil_p(path, _opts) do
+    path = if is_binary(path), do: String.trim(path, "/"), else: path
+    "/#{path}"
+  end
+
+  # Embed all layouts in this folder for use with root/1, app/1, etc
+  Phoenix.Template.embed_templates "layouts/*"
 
   @doc """
   Renders the app layout which displays flash messages.

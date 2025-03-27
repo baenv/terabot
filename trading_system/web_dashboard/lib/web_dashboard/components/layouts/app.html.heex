@@ -1,4 +1,17 @@
-<.flash_group flash={@flash} />
+<div class="flash-container">
+  <%= if flash = assigns[:flash] do %>
+    <div id="flash" role="alert">
+      <%= for {kind, message} <- flash do %>
+        <div class={"alert alert-#{kind}"} role="alert">
+          <p><%= message %></p>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
 <div class="px-4 sm:px-6 lg:px-8">
   <%= @inner_content %>
 </div> 

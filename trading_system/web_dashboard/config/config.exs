@@ -10,6 +10,12 @@ config :web_dashboard, :server,
   port: 4000,
   host: "localhost"
 
+# Configure Phoenix LiveView
+config :web_dashboard, WebDashboard.Endpoint,
+  live_view: [
+    signing_salt: "terabotSecureSalt"
+  ]
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

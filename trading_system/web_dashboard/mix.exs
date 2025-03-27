@@ -42,6 +42,9 @@ defmodule WebDashboard.MixProject do
       {:telemetry_poller, "~> 1.0.0"},
       {:telemetry, git: "https://github.com/beam-telemetry/telemetry.git", tag: "v1.2.1", override: true},
 
+      # Utilities
+      {:number, "~> 1.0"},
+
       # Backend
       {:plug_cowboy, "~> 2.5"},
       {:jason, git: "https://github.com/michalmuskala/jason.git", tag: "v1.4.1", override: true},
