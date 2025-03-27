@@ -11,6 +11,23 @@ defmodule WebDashboard.Endpoint do
     same_site: "Lax"
   ]
 
+  # Specify the view to use for rendering errors
+  @render_errors [
+    formats: [
+      html: WebDashboard.ErrorHTML,
+      json: WebDashboard.ErrorJSON
+    ],
+    layout: false,
+    status_code_to_view: %{
+      404 => :not_found,
+      500 => :internal_server_error
+    }
+  ]
+
+  socket "/live", Phoenix.LiveView.Socket,
+    websocket: [connect_info: [session: @session_options]],
+    longpoll: false
+
   # Serve at "/" the static files from "priv/static" directory.
   #
   # You should set gzip to true if you are running phx.digest
@@ -49,6 +66,8 @@ defmodule WebDashboard.Endpoint do
 
   # Initialize the endpoint
   def init(_key, config) do
+    # Always update the render_errors configuration
+    config = Keyword.put(config, :render_errors, @render_errors)
     {:ok, config}
   end
 end
