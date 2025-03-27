@@ -25,9 +25,9 @@ config :tailwind,
 config :phoenix, :stacktrace_depth, 20
 config :phoenix, :plug_init_mode, :runtime
 
-# Configure the endpoints
+# Configure the endpoints - ensure we listen on all interfaces to make it accessible from other containers
 config :web_dashboard, WebDashboard.Endpoint,
-  http: [ip: {127, 0, 0, 1}, port: 4000],
+  http: [ip: {0, 0, 0, 0}, port: 4001],
   check_origin: false,
   code_reloader: true,
   debug_errors: true,

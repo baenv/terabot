@@ -8,16 +8,17 @@ defmodule TradingSystemMain.Application do
 
   @impl true
   def start(_type, _args) do
-    children = get_children()
+    # Start applications in the correct order
+    ensure_started(:core)
+    ensure_started(:data_collector)
+    ensure_started(:order_manager)
+    ensure_started(:decision_engine)
+    ensure_started(:portfolio_manager)
 
-    # See https://hexdocs.pm/elixir/Supervisor.html
-    # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: TradingSystemMain.Supervisor]
-    Supervisor.start_link(children, opts)
-  end
+    # Explicitly start the web dashboard
+    ensure_started(:web_dashboard)
 
-  defp get_children do
-    base_children = [
+    children = [
       # Start the Registry for component registration
       {Registry, keys: :unique, name: TradingSystemMain.Registry},
       # Start the PubSub server for system-wide events
@@ -26,76 +27,19 @@ defmodule TradingSystemMain.Application do
       TradingSystemMain.Cache
     ]
 
-    # Dynamically add the available applications to avoid errors
-    # if they are not available
-    base_children ++ get_available_apps()
+    # See https://hexdocs.pm/elixir/Supervisor.html
+    # for other strategies and supported options
+    opts = [strategy: :one_for_one, name: TradingSystemMain.Supervisor]
+    Supervisor.start_link(children, opts)
   end
 
-  defp get_available_apps do
-    available_apps = []
-
-    available_apps =
-      if Code.ensure_loaded?(Core.Application) do
-        Logger.info("Core application is available, adding to children")
-        # Instead of directly using the Application module, depend on the OTP application
-        available_apps
-      else
-        Logger.warning("Core application is not available")
-        available_apps
-      end
-
-
-    available_apps =
-      if Code.ensure_loaded?(DataCollector.Application) do
-        Logger.info("DataCollector is available, adding to children")
-        # Instead of directly using the Application module, depend on the OTP application
-        available_apps
-      else
-        Logger.warning("DataCollector is not available")
-        available_apps
-      end
-
-    available_apps =
-      if Code.ensure_loaded?(OrderManager.Application) do
-        Logger.info("OrderManager is available, adding to children")
-        # Instead of directly using the Application module, depend on the OTP application
-        available_apps
-      else
-        Logger.warning("OrderManager is not available")
-        available_apps
-      end
-
-    available_apps =
-      if Code.ensure_loaded?(DecisionEngine.Application) do
-        Logger.info("DecisionEngine is available, adding to children")
-        # Instead of directly using the Application module, depend on the OTP application
-        available_apps
-      else
-        Logger.warning("DecisionEngine is not available")
-        available_apps
-      end
-
-    available_apps =
-      if Code.ensure_loaded?(PortfolioManager.Application) do
-        Logger.info("PortfolioManager is available, adding to children")
-        # Instead of directly using the Application module, depend on the OTP application
-        available_apps
-      else
-        Logger.warning("PortfolioManager is not available")
-        available_apps
-      end
-
-    # Disable web_dashboard temporarily as it has compilation issues
-    available_apps =
-     if Code.ensure_loaded?(WebDashboard.Application) do
-       Logger.info("WebDashboard is available, adding to children")
-       # Instead of directly using the Application module, depend on the OTP application
-       available_apps
-     else
-       Logger.warning("WebDashboard is not available")
-       available_apps
-     end
-
-    available_apps
+  # Helper to ensure an application is started
+  defp ensure_started(app) do
+    case Application.ensure_all_started(app) do
+      {:ok, _} ->
+        Logger.info("#{app} successfully started")
+      {:error, {dep, reason}} ->
+        Logger.error("Failed to start #{app}: dependency #{dep} failed with reason: #{inspect(reason)}")
+    end
   end
 end

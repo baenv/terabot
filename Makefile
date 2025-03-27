@@ -1,4 +1,4 @@
-.PHONY: setup test clean build run format check deps update-deps docker-build docker-run init-shell init-db init-mix clean-db reset-db start stop migrate migrate.up migrate.down run-core run-portfolio run-collector run-order run-decision run-dashboard run-processor
+.PHONY: setup test clean build run format check deps update-deps docker-build docker-run init-shell init-db init-mix clean-db reset-db start stop migrate migrate.up migrate.down run-core run-portfolio run-collector run-order run-decision run-dashboard run-processor all run-web run-trading
 
 # Default target
 all: init-mix test
@@ -67,13 +67,30 @@ clean:
 build:
 	cd trading_system/trading_system_main && mix release
 
-# Run the application
-run:
+# Run the application with web dashboard (RECOMMENDED)
+run: build-assets
+	cd trading_system/trading_system_main && iex -S mix
+
+# Run the application with web dashboard using the run script
+run-script: build-assets
+	./run.sh
+
+# Build web dashboard assets
+build-assets:
+	cd trading_system/web_dashboard && mix deps.get
+	cd trading_system/web_dashboard && mix assets.deploy
+
+# Simple run without IEx console
+run-daemon: build-assets
 	cd trading_system/trading_system_main && mix run --no-halt
 
-# Run with IEx console
-run.console:
+# Run with IEx console with web dashboard
+run.console: build-assets
 	cd trading_system/trading_system_main && iex -S mix
+
+# Run web dashboard standalone on port 4001
+run-web: build-assets
+	cd trading_system/web_dashboard && PORT=4001 mix phx.server
 
 # Format code
 format:
@@ -178,6 +195,14 @@ run-dashboard:
 
 run-processor:
 	cd trading_system/data_processor && mix run --no-halt
+
+# Run just the trading system main without the web dashboard
+run-trading:
+	cd trading_system/trading_system_main && iex -S mix
+
+# Setup the entire project
+setup: deps
+	cd trading_system/core && mix ecto.setup
 
 # Help target
 help:

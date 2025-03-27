@@ -8,6 +8,7 @@ defmodule WebDashboard.MixProject do
       elixir: "~> 1.13",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
+      aliases: aliases(),
       deps: deps()
     ]
   end
@@ -53,6 +54,14 @@ defmodule WebDashboard.MixProject do
       # Assets
       {:esbuild, "~> 0.7", runtime: Mix.env() == :dev},
       {:tailwind, "~> 0.2", runtime: Mix.env() == :dev}
+    ]
+  end
+
+  # Aliases are shortcuts or tasks specific to the current project.
+  defp aliases do
+    [
+      setup: ["deps.get", "assets.deploy"],
+      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"]
     ]
   end
 end
